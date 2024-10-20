@@ -1,13 +1,46 @@
 {
-  "type": "module",
-  "devDependencies": {
-    "esbuild": "^0.23.1",
-    "terser": "^5.36.0",
-    "typescript": "^5.6.2"
+  "name": "matrix",
+  "version": "1.0.0",
+  "description": "Matrix library",
+  "keywords": [
+    "algebra",
+    "array",
+    "data",
+    "data-structure",
+    "math",
+    "matrix",
+    "vector"
+  ],
+  "homepage": "https://github.com/dandre3000/matrix#readme",
+  "bugs": {
+    "url": "https://github.com/dandre3000/matrix/issues",
+    "email": "deaundre.payne@gmail.com"
   },
+  "license": "GPL-3.0",
+  "author": "DeAundre Payne <deaundre.payne@gmail.com> (https://github.com/dandre3000)",
+  "contributors": [],
+  "funding": {
+    "type": "Cash App",
+    "url": "https://cash.app/$DeAundrePayne"
+  },
+  "files": [],
+  "exports": {},
+  "main": "main.min.js",
+  "browser": {},
+  "bin": {},
+  "repository": "github:dandre3000/matrix",
   "scripts": {
     "minimize": "npx terser main.js -c -m -o main.min.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --watchAll",
     "type-check": "npx tsc --watch"
-  }
+  },
+  "devDependencies": {
+    "terser": "^5.36.0",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": "^12"
+  },
+  "private": true,
+  "type": "module"
 }
