@@ -138,7 +138,7 @@ export const checkMatrix = matrix => {
 /** @type {import('Matrix').isMatrix} */
 export const isMatrix = matrix => {
 	if (matrix === undefined) return false // matrix is not defined
-	if (typeof matrix !== 'object' ||
+	else if (typeof matrix !== 'object' ||
 		matrix === null) return false
 	
 	// matrix has already been validated
