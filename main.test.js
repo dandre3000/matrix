@@ -1,8 +1,8 @@
 import { expect, test } from '@jest/globals'
-import { add, checkMatrix, divideScalar, isMatrix, multiplyMatrix, multiplyScalar, newMatrix, rowAdd, rowMultiply, rowSwitch, subtract } from './main.js'
+import { add, checkMatrix, divideScalar, isMatrix, multiplyMatrix, multiplyScalar, newMatrix, rowAdd, rowMultiply, rowSwitch, subtract, transpose } from './main.js'
 
 test('newMatrix throws an Error if rows or columns are not integers greater than or equal to 1', () => {
-	expect(() => newMatrix(undefined, 1)).toThrow(TypeError)
+	expect(() => newMatrix(1)).toThrow(ReferenceError)
 	expect(() => newMatrix(null, 2)).toThrow(TypeError)
 	expect(() => newMatrix(true, 3)).toThrow(TypeError)
 	expect(() => newMatrix('', 4)).toThrow(TypeError)
@@ -10,7 +10,7 @@ test('newMatrix throws an Error if rows or columns are not integers greater than
 	expect(() => newMatrix(0, 6)).toThrow(RangeError)
 	expect(() => newMatrix(1.1, 7)).toThrow(RangeError)
 	
-	expect(() => newMatrix(1, undefined)).toThrow(TypeError)
+	expect(() => newMatrix(1, undefined)).toThrow(ReferenceError)
 	expect(() => newMatrix(2, null)).toThrow(TypeError)
 	expect(() => newMatrix(3, true)).toThrow(TypeError)
 	expect(() => newMatrix(4, '')).toThrow(TypeError)
@@ -83,19 +83,18 @@ test('newMatrix always returns an object that fits the Matrix interface', () => 
 })
 
 test('checkMatrix throws an Error if matrix does not fit the Matrix interface', () => {
-	expect(() => checkMatrix(undefined)).toThrow(TypeError)
+	expect(() => checkMatrix()).toThrow(ReferenceError)
 	expect(() => checkMatrix(null)).toThrow(TypeError)
 	expect(() => checkMatrix(true)).toThrow(TypeError)
 	expect(() => checkMatrix(0)).toThrow(TypeError)
 	expect(() => checkMatrix('')).toThrow(TypeError)
-	expect(() => checkMatrix({})).toThrow(TypeError)
+	expect(() => checkMatrix({})).toThrow(ReferenceError)
 	
 	expect(() => checkMatrix({
-		rows: undefined,
 		columns: 1,
 		length: 1,
 		0: 1
-	})).toThrow(TypeError)
+	})).toThrow(ReferenceError)
 	
 	expect(() => checkMatrix({
 		rows: 1,
@@ -206,7 +205,7 @@ test('subtract throws an Error if a or b do not fit the Matrix interface', () =>
 		columns: 1,
 		length: 1,
 		0: 1
-	}, newMatrix(1, 1))).toThrow(TypeError)
+	}, newMatrix(1, 1))).toThrow(ReferenceError)
 	
 	expect(() => subtract(newMatrix(1, 1), {
 		rows: 1,
@@ -309,7 +308,7 @@ test('rowAdd throws an Error if matrix does not fit the Matrix interface', () =>
 		columns: 1,
 		length: 1,
 		0: 1
-	}, 0, 1)).toThrow(TypeError)
+	}, 0, 1)).toThrow(ReferenceError)
 })
 
 test('rowAdd throws an Error if a or b is not an integer greater than or equal to 0 and less than matrix.rows', () => {
@@ -347,4 +346,18 @@ test('rowMultiply throws an Error if n is not a number', () => {
 test('rowMultiply multiplies the elements of row a times n then adds them to the elements of row b', () => {
 	expect(rowMultiply(newMatrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9]), 0, 2)).toStrictEqual(newMatrix(3, 3, [2, 4, 6, 4, 5, 6, 7, 8, 9]))
 	expect(rowMultiply(newMatrix(3, 3, [2, 4, 6, 4, 5, 6, 7, 8, 9]), 1, 3)).toStrictEqual(newMatrix(3, 3, [2, 4, 6, 12, 15, 18, 7, 8, 9]))
+})
+
+test('transpose throws an Error if matrix does not fit the Matrix interface', () => {
+	expect(() => transpose({
+		rows: 1,
+		columns: '',
+		length: 1,
+		0: 1
+	})).toThrow(TypeError)
+})
+
+test('transpose matrix', () => {
+	expect(transpose(newMatrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9]))).toStrictEqual(newMatrix(3, 3, [1, 4, 7, 2, 5, 8, 3, 6, 9]))
+	expect(transpose(newMatrix(3, 3, [1, 4, 7, 2, 5, 8, 3, 6, 9]))).toStrictEqual(newMatrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
 })
