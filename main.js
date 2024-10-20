@@ -25,12 +25,12 @@ const matrixSymbol = Symbol('Matrix')
 
 /** @type {import('Matrix').newMatrix} */
 export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * columns * 8), byteOffset = 0) => {
-	if (rows === undefined) throw new TypeError('rows is not defined')
+	if (rows === undefined) throw new ReferenceError('rows is not defined')
 	else if (typeof rows !== 'number') throw new TypeError('rows must be a number')
 	else if (rows % 1 !== 0) throw new RangeError('rows must be an integer')
 	else if (rows < 1) throw new RangeError('rows must be greater than or equal to 1')
 	
-	else if (columns === undefined) throw new TypeError('columns is not defined')
+	else if (columns === undefined) throw new ReferenceError('columns is not defined')
 	else if (typeof columns !== 'number') throw new TypeError('columns must be a number')
 	else if (columns % 1 !== 0) throw new RangeError('columns must be an integer')
 	else if (columns < 1) throw new RangeError('columns must be greater than or equal to 1')
@@ -96,7 +96,8 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 
 /** @type {import('Matrix').checkMatrix} */
 export const checkMatrix = matrix => {
-	if (typeof matrix !== 'object' ||
+	if (matrix === undefined) throw new ReferenceError('matrix is not defined')
+	else if (typeof matrix !== 'object' ||
 		matrix === null) throw new TypeError('matrix must be an array of only numbers')
 	
 	// matrix has already been validated
@@ -106,13 +107,13 @@ export const checkMatrix = matrix => {
 		const { columns, length, rows } = matrix
 		
 		// is rows an integer greater than or equal to 1
-		if (rows === undefined) throw new TypeError('matrix.rows is not defined')
+		if (rows === undefined) throw new ReferenceError('matrix.rows is not defined')
 		else if (typeof rows !== 'number') throw new TypeError('matrix.rows must be a number')
 		else if (rows % 1 !== 0) throw new RangeError('matrix.rows must be an integer')
 		else if (rows < 1) throw new RangeError('matrix.rows must be greater than or equal to 1')
 		
 		// is columns an integer greater than or equal to 1
-		else if (columns === undefined) throw new TypeError('matrix.columns is not defined')
+		else if (columns === undefined) throw new ReferenceError('matrix.columns is not defined')
 		else if (typeof columns !== 'number') throw new TypeError('matrix.columns must be a number')
 		else if (columns % 1 !== 0) throw new RangeError('matrix.columns must be an integer')
 		else if (columns < 1) throw new RangeError('matrix.columns must be greater than or equal to 1')
@@ -136,6 +137,7 @@ export const checkMatrix = matrix => {
 
 /** @type {import('Matrix').isMatrix} */
 export const isMatrix = matrix => {
+	if (matrix === undefined) return false // matrix is not defined
 	if (typeof matrix !== 'object' ||
 		matrix === null) return false
 	
