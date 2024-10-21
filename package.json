@@ -27,6 +27,10 @@
     "url": "https://github.com/dandre3000/matrix/issues",
     "email": "deaundre.payne@gmail.com"
   },
+  "publishConfig": {
+	"access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
   "type": "module",
   "files": [],
   "exports": {},
