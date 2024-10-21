@@ -23,7 +23,19 @@
 // used to skip redundant Matrix interface validation
 const matrixSymbol = Symbol('Matrix')
 
-/** @type {import('Matrix').newMatrix} */
+/** type {Set<Matrix>} */
+const validSet = new Set
+
+/** 
+ * Creates a Float64Array instance that fits the Matrix inteface.
+ * Arguments rows and columns are required and the corresponding properties of the created Matrix are non-configurable and read-only.
+ * Arguments data, buffer and byteOffset are optional.
+ * The matrix will be filled with the elements contained in data.
+ * The length of the data array may be greater or less than the length of the created Matrix.
+ * The buffer length minus byteOffset must be long enough to contain the Matrix.
+ * 
+ * @type {import('Matrix').newMatrix}
+ */
 export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * columns * 8), byteOffset = 0) => {
 	if (rows === undefined) throw new ReferenceError('rows is not defined')
 	else if (typeof rows !== 'number') throw new TypeError('rows must be a number')
@@ -84,12 +96,13 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 	
 	// seal of approval
 	// readonly matrix[matrixSymbol] = true
-	Object.defineProperty(matrix, matrixSymbol, {
-		value: true,
-		configurable: false,
-		enumerable: false,
-		writable: false
-	})
+	// Object.defineProperty(matrix, matrixSymbol, {
+		// value: true,
+		// configurable: false,
+		// enumerable: false,
+		// writable: false
+	// })
+	validSet.add(matrix)
 	
 	return matrix
 }
@@ -101,7 +114,8 @@ export const checkMatrix = matrix => {
 		matrix === null) throw new TypeError('matrix must be an array of only numbers')
 	
 	// matrix has already been validated
-	else if (/** Typescript will not accept matrixSymbol as a property key: @type {*} */ (matrix)[matrixSymbol] == true) return matrix
+	// else if (/** Typescript will not accept matrixSymbol as a property key: @type {*} */ (matrix)[matrixSymbol] == true) return matrix
+	else if (validSet.has(matrix) === true) return matrix
 	
 	else {
 		const { columns, length, rows } = matrix
@@ -142,7 +156,8 @@ export const isMatrix = matrix => {
 		matrix === null) return false
 	
 	// matrix has already been validated
-	else if (/** Typescript will not accept matrixSymbol as a property key: @type {*} */ (matrix)[matrixSymbol] === true) return true
+	// else if (/** Typescript will not accept matrixSymbol as a property key: @type {*} */ (matrix)[matrixSymbol] === true) return true
+	else if (validSet.has(matrix) === true) return true
 	
 	else {
 		const { columns, length, rows } = matrix
