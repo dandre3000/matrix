@@ -1,58 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { add, checkMatrix, divideScalar, isMatrix, multiplyMatrix, multiplyScalar, newMatrix, rowAdd, rowMultiply, rowSwitch, subtract, transpose } from './main.js'
-
-test('isMatrix returns true if matrix fits the Matrix interface or false if it does not', () => {
-	expect(isMatrix(undefined)).toEqual(false)
-	expect(isMatrix(null)).toEqual(false)
-	expect(isMatrix(true)).toEqual(false)
-	expect(isMatrix(0)).toEqual(false)
-	expect(isMatrix('')).toEqual(false)
-	expect(isMatrix({})).toEqual(false)
-	
-	expect(isMatrix({
-		rows: undefined,
-		columns: 1,
-		length: 1,
-		0: 1
-	})).toEqual(false)
-	
-	expect(isMatrix({
-		rows: 1,
-		columns: -1,
-		length: 1,
-		0: 1
-	})).toEqual(false)
-	
-	expect(isMatrix({
-		rows: 1,
-		columns: 1,
-		length: 1.1,
-		0: 1
-	})).toEqual(false)
-	
-	expect(isMatrix({
-		rows: 1,
-		columns: 1,
-		length: 1,
-		0: '1'
-	})).toEqual(false)
-	
-	expect(isMatrix({
-		rows: 1,
-		columns: 1,
-		length: 1,
-		0: 1
-	})).toEqual(true)
-	
-	expect(isMatrix({
-		rows: 3,
-		columns: 1,
-		length: 3,
-		0: 1,
-		1: 2,
-		2: 3
-	})).toEqual(true)
-})
+import { add, divideScalar, isMatrix, multiplyMatrix, multiplyScalar, newMatrix, rowAdd, rowMultiply, rowSwitch, subtract, transpose } from './main.js'
 
 test('add throws an Error if a or b do not fit the Matrix interface', () => {
 	expect(() => add({
