@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals'
 import { newMatrix } from '../main.js'
 
-test('throws a ReferenceError if arguments rows and columns are not defined', () => {
+test('throws a ReferenceError if arguments rows or columns are not defined', () => {
 	expect(() => newMatrix()).toThrow(ReferenceError)
 	expect(() => newMatrix(undefined, 1)).toThrow(ReferenceError)
 	expect(() => newMatrix(1)).toThrow(ReferenceError)
@@ -22,7 +22,7 @@ test('throws a TypeError if rows or columns are not numbers', () => {
 	expect(() => newMatrix(1, {})).toThrow(TypeError)
 })
 
-test('throws a RangeError if arguments rows and columns are not integers greater than or equal to 1', () => {
+test('throws a RangeError if arguments rows or columns are not integers greater than or equal to 1', () => {
 	expect(() => newMatrix(0, 1)).toThrow(RangeError)
 	expect(() => newMatrix(1, 0)).toThrow(RangeError)
 	expect(() => newMatrix(1.1, 1)).toThrow(RangeError)
@@ -51,6 +51,7 @@ test('throws a TypeError if property length of argument data is not a number', (
 })
 
 test('throws a TypeError if any enumerable property of argument data is not a number', () => {
+	expect(() => newMatrix(1, 1, [undefined])).toThrow(TypeError)
 	expect(() => newMatrix(1, 1, [null])).toThrow(TypeError)
 	expect(() => newMatrix(1, 1, [0, true])).toThrow(TypeError)
 	expect(() => newMatrix(1, 1, [0, 0, '0'])).toThrow(TypeError)
@@ -83,7 +84,7 @@ test('throws a RangeError if property byteLength of argument buffer minus argume
 	expect(() => newMatrix(1, 1, undefined, new ArrayBuffer(8), 1)).toThrow(RangeError)
 })
 
-test('newMatrix always returns an object that fits the Matrix interface', () => {
+test('returns an object that fits the Matrix interface', () => {
 	const testMatrix = matrix => {
 		const { columns, length, rows } = matrix
 		
