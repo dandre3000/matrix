@@ -1,6 +1,6 @@
 {
   "name": "@dandre3000/matrix",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "license": "GPL-3.0",
   "author": "DeAundre Payne <deaundre.payne@gmail.com> (https://github.com/dandre3000)",
   "contributors": [],
@@ -20,23 +20,20 @@
   ],
   "homepage": "https://github.com/dandre3000/matrix#readme",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/dandre3000/matrix.git"
+    "url": "git+https://github.com/dandre3000/matrix.git"
   },
   "bugs": {
     "url": "https://github.com/dandre3000/matrix/issues",
     "email": "deaundre.payne@gmail.com"
   },
   "publishConfig": {
-	"access": "public",
-    "registry": "https://npm.pkg.github.com"
+	"access": "public"
   },
   "type": "module",
   "files": [],
   "exports": {},
   "main": "main.min.js",
   "browser": {},
-  "bin": {},
   "scripts": {
     "minimize": "npx terser main.js -c -m -o main.min.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --watchAll",
