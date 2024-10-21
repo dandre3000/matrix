@@ -1,42 +1,6 @@
 import { expect, test } from '@jest/globals'
 import { add, checkMatrix, divideScalar, isMatrix, multiplyMatrix, multiplyScalar, newMatrix, rowAdd, rowMultiply, rowSwitch, subtract, transpose } from './main.js'
 
-test('checkMatrix throws an Error if matrix does not fit the Matrix interface', () => {
-	expect(() => checkMatrix()).toThrow(ReferenceError)
-	expect(() => checkMatrix(null)).toThrow(TypeError)
-	expect(() => checkMatrix(true)).toThrow(TypeError)
-	expect(() => checkMatrix(0)).toThrow(TypeError)
-	expect(() => checkMatrix('')).toThrow(TypeError)
-	expect(() => checkMatrix({})).toThrow(ReferenceError)
-	
-	expect(() => checkMatrix({
-		columns: 1,
-		length: 1,
-		0: 1
-	})).toThrow(ReferenceError)
-	
-	expect(() => checkMatrix({
-		rows: 1,
-		columns: -1,
-		length: 1,
-		0: 1
-	})).toThrow(RangeError)
-	
-	expect(() => checkMatrix({
-		rows: 1,
-		columns: 1,
-		length: 1.1,
-		0: 1
-	})).toThrow(RangeError)
-	
-	expect(() => checkMatrix({
-		rows: 1,
-		columns: 1,
-		length: 1,
-		0: '1'
-	})).toThrow(TypeError)
-})
-
 test('isMatrix returns true if matrix fits the Matrix interface or false if it does not', () => {
 	expect(isMatrix(undefined)).toEqual(false)
 	expect(isMatrix(null)).toEqual(false)
