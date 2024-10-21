@@ -20,11 +20,8 @@
 
 'use strict'
 
-// used to skip redundant Matrix interface validation
-const matrixSymbol = Symbol('Matrix')
-
-/** type {Set<Matrix>} */
-const validSet = new Set
+/** type {WeakSet<Matrix>} */
+const validSet = new WeakSet
 
 /** 
  * Creates a Float64Array instance that fits the Matrix inteface.
@@ -94,14 +91,7 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 		writable: false
 	})
 	
-	// seal of approval
-	// readonly matrix[matrixSymbol] = true
-	// Object.defineProperty(matrix, matrixSymbol, {
-		// value: true,
-		// configurable: false,
-		// enumerable: false,
-		// writable: false
-	// })
+	// validated
 	validSet.add(matrix)
 	
 	return matrix
@@ -114,7 +104,6 @@ export const checkMatrix = matrix => {
 		matrix === null) throw new TypeError('matrix must be an array of only numbers')
 	
 	// matrix has already been validated
-	// else if (/** Typescript will not accept matrixSymbol as a property key: @type {*} */ (matrix)[matrixSymbol] == true) return matrix
 	else if (validSet.has(matrix) === true) return matrix
 	
 	else {
@@ -156,7 +145,6 @@ export const isMatrix = matrix => {
 		matrix === null) return false
 	
 	// matrix has already been validated
-	// else if (/** Typescript will not accept matrixSymbol as a property key: @type {*} */ (matrix)[matrixSymbol] === true) return true
 	else if (validSet.has(matrix) === true) return true
 	
 	else {
