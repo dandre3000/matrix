@@ -37,15 +37,15 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 	if (rows === undefined) throw new ReferenceError('rows must be defined')
 	else if (typeof rows !== 'number') throw new TypeError('rows must be a number')
 	else if (rows % 1 !== 0) throw new RangeError('rows must be an integer')
-	else if (rows < 1) throw new RangeError('rows must be less than 1')
+	else if (rows < 1) throw new RangeError('rows must be greater than or equal to 1')
 	
 	else if (columns === undefined) throw new ReferenceError('columns must be defined')
 	else if (typeof columns !== 'number') throw new TypeError('columns must be a number')
 	else if (columns % 1 !== 0) throw new RangeError('columns must be an integer')
-	else if (columns < 1) throw new RangeError('columns must be less than 1')
+	else if (columns < 1) throw new RangeError('columns must be greater than or equal to 1')
 	
 	else if (data !== undefined) {
-		if (typeof data !== 'object') throw new TypeError('data must be an object or array')
+		if (typeof data !== 'object' || data === null) throw new TypeError('data must be an object or array')
 		else if (data.length === undefined) throw new ReferenceError('data.length must be defined')
 		else if (typeof data.length !== 'number') throw new TypeError('data.length must be a number')
 		for (let i = 0; i < data.length; i++) {
@@ -54,9 +54,9 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 	}
 	
 	if ((buffer instanceof ArrayBuffer) !== true) throw new TypeError('buffer must be an ArrayBuffer')
-	else if (buffer.byteLength < rows * columns * 8) throw new RangeError('buffer.byteLength must be less than the byteLength of the matrix (rows * columns * 8)')
+	else if (buffer.byteLength < rows * columns * 8) throw new RangeError('buffer.byteLength must be greater than or equal to the byteLength required to store the whole matrix (rows * columns * 8)')
 	else if (typeof byteOffset !== 'number') throw new TypeError('byteOffset must be a number')
-	else if (buffer.byteLength - byteOffset < (rows * columns * 8)) throw new RangeError('buffer.byteLength minus byteOffset must be less than the byteLength matrix (rows * columns * 8)')
+	else if (buffer.byteLength - byteOffset < (rows * columns * 8)) throw new RangeError('buffer.byteLength minus byteOffset must be less than or equal to the byteLength required to store the whole matrix (rows * columns * 8)')
 	
 	/** Can not convert Float64Array to Matrix @type {*} */
 	const matrix = new Float64Array(buffer, byteOffset, rows * columns)
@@ -107,13 +107,13 @@ export const checkMatrix = matrix => {
 		if (rows === undefined) throw new ReferenceError('matrix.rows must be defined')
 		else if (typeof rows !== 'number') throw new TypeError('matrix.rows must be a number')
 		else if (rows % 1 !== 0) throw new RangeError('matrix.rows must be an integer')
-		else if (rows < 1) throw new RangeError('matrix.rows must be less than 1')
+		else if (rows < 1) throw new RangeError('matrix.rows must be greater than or equal to 1')
 		
 		// is columns an integer greater than or equal to 1
 		else if (columns === undefined) throw new ReferenceError('matrix.columns must be defined')
 		else if (typeof columns !== 'number') throw new TypeError('matrix.columns must be a number')
 		else if (columns % 1 !== 0) throw new RangeError('matrix.columns must be an integer')
-		else if (columns < 1) throw new RangeError('matrix.columns must be less than 1')
+		else if (columns < 1) throw new RangeError('matrix.columns must be greater than or equal to 1')
 		
 		// is matrix ArrayLike<number>
 		else if (length === undefined) throw new ReferenceError('matrix.length must be defined')
@@ -121,7 +121,7 @@ export const checkMatrix = matrix => {
 		else if (length !== rows * columns) throw new RangeError('matrix.length must equal rows * columns')
 		
 		// elements
-		else if ((ArrayBuffer.isView(matrix) === true && (matrix instanceof DataView) === false) === false) { // TypedArray can only hold numbers
+		else if ((ArrayBuffer.isView(matrix) === true && (matrix instanceof DataView) === false) === false) { // matrix is not TypedArray
 			for (let i = 0; i < length; i++) {
 				if (typeof matrix[i] !== 'number') throw new TypeError(`matrix[${i}] must be a number`)
 			}
@@ -147,23 +147,21 @@ export const isMatrix = matrix => {
 		if (rows === undefined || // matrix.rows is not defined
 			typeof rows !== 'number' || // matrix.rows is not an integer
 			rows % 1 !== 0 || // matrix.rows is not an integer
-			rows < 1 || // matrix.rows is not greater than or equal to 1
+			rows < 1 || // matrix.rows is less than 1
 		
 		// is columns an integer greater than or equal to 1
 			columns === undefined || // matrix.columns is not defined
 			typeof columns !== 'number' || // matrix.columns is not an integer
 			columns % 1 !== 0 || // matrix.columns is not an integer
-			columns < 1 || // matrix.columns is not greater than or equal to 1
+			columns < 1 || // matrix.columns is less than 1
 		
 		// is matrix ArrayLike<number>
-			data.length === undefined || // data.length is not defined
-			typeof matrix.length !== 'number' || // matrix.length is not an integer
-			length % 1 !== 0 || // matrix.length is not an integer
-			length < 0 || // matrix.length is not greater than or equal to 0
+			length === undefined || // matrix.length is not defined
+			typeof length !== 'number' || // matrix.length is not a number
 			length !== rows * columns) return false // matrix.length does not equal rows * columns
 		
 		// elements
-		else if ((ArrayBuffer.isView(matrix) === true && (matrix instanceof DataView) === false) === false) { // TypedArray can only hold numbers
+		else if ((ArrayBuffer.isView(matrix) === true && (matrix instanceof DataView) === false) === false) { // matrix is not TypedArray
 			for (let i = 0; i < length; i++) {
 				if (typeof matrix[i] !== 'number') return false // matrix is not an array of only numbers
 			}
