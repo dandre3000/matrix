@@ -1,4 +1,4 @@
-# matrix
+# @dandre3000/matrix
 Matrix library
 
 Copyright (c) 2024 DeAundre Payne
