@@ -1,12 +1,12 @@
 import { expect, test } from '@jest/globals'
 import { checkMatrix } from '../main.js'
 
-test('throws a ReferenceError if matrix is not defined', () => {
+test('throw a ReferenceError if matrix is not defined', () => {
 	expect(() => checkMatrix()).toThrow(ReferenceError)
 	expect(() => checkMatrix(undefined)).toThrow(ReferenceError)
 })
 
-test('throws a ReferenceError if property rows, columns or length of argument matrix are not defined', () => {
+test('throw a ReferenceError if property rows, columns or length of argument matrix are not defined', () => {
 	expect(() => checkMatrix([0])).toThrow(ReferenceError)
 	expect(() => checkMatrix({
 		0: 0,
@@ -43,7 +43,7 @@ test('throws a ReferenceError if property rows, columns or length of argument ma
 	})).toThrow(ReferenceError)
 })
 
-test('throws a TypeError if property rows, columns or length of argument matrix are not numbers', () => {
+test('throw a TypeError if property rows, columns or length of argument matrix are not numbers', () => {
 	expect(() => checkMatrix({
 		0: 0,
 		rows: null,
@@ -138,7 +138,7 @@ test('throws a TypeError if property rows, columns or length of argument matrix 
 	})).toThrow(TypeError)
 })
 
-test('throws a RangeError if property rows or columns of argument matrix is not an integer', () => {
+test('throw a RangeError if property rows or columns of argument matrix is not an integer', () => {
 	expect(() => checkMatrix({
 		0: 0,
 		rows: 1.1,
@@ -153,7 +153,7 @@ test('throws a RangeError if property rows or columns of argument matrix is not 
 	})).toThrow(RangeError)
 })
 
-test('throws a RangeError if property length of argument matrix does not equal property rows times property columns', () => {
+test('throw a RangeError if property length of argument matrix does not equal property rows times property columns', () => {
 	expect(() => checkMatrix({
 		0: 0,
 		0: 0,
@@ -165,7 +165,7 @@ test('throws a RangeError if property length of argument matrix does not equal p
 	})).toThrow(RangeError)
 })
 
-test('throws a TypeError if any enumerable property of argument matrix is not a number', () => {
+test('throw a TypeError if any enumerable property of argument matrix is not a number', () => {
 	expect(() => checkMatrix({
 		0: undefined,
 		rows: 1,
