@@ -25,7 +25,7 @@ add(newMatrix(2, 2, [1, 2, 3, 4]), newMatrix(2, 2, [5, 6, 7, 8]))
 ```
 
 ## API
-`newMatrix` creates a `Float64Array` instance that fits the `Matrix` inteface. Arguments `rows` and `columns` are required and the corresponding properties of the created `Matrix` are non-configurable and read-only.
+`newMatrix` creates a `Float64Array` instance that fits the `Matrix` interface. Arguments `rows` and `columns` are required and the corresponding properties of the created `Matrix` are non-configurable and read-only.
 Arguments `data`, `buffer` and `byteOffset` are optional. The `Matrix` will be filled with the elements contained in `data`.
 `data.length` may be greater or less than `Matrix.length`. `buffer.length - byteOffset` must be greater than the amount of memory required to contain the whole `Matrix` ie. `Matrix.rows * Matrix.columns * 8 // 64 bits == 8 bytes`.
 ```js
