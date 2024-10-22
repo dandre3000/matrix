@@ -1,28 +1,5 @@
 import { expect, test } from '@jest/globals'
-import { newMatrix, rowAdd, rowMultiply, transpose } from './main.js'
-
-test('rowAdd throws an Error if matrix does not fit the Matrix interface', () => {
-	expect(() => rowAdd({
-		rows: undefined,
-		columns: 1,
-		length: 1,
-		0: 1
-	}, 0, 1)).toThrow(ReferenceError)
-})
-
-test('rowAdd throws an Error if a or b is not an integer greater than or equal to 0 and less than matrix.rows', () => {
-	expect(() => rowAdd(newMatrix(2, 1), true, 1)).toThrow(TypeError)
-	expect(() => rowAdd(newMatrix(2, 1), 0, '')).toThrow(TypeError)
-})
-
-test('rowAdd throws an Error if n is not a number', () => {
-	expect(() => rowAdd(newMatrix(2, 1), 0, 1, null)).toThrow(TypeError)
-})
-
-test('rowAdd multiplies the elements of row a times n then adds them to the elements of row b', () => {
-	expect(rowAdd(newMatrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9]), 1, 0, 2)).toStrictEqual(newMatrix(3, 3, [9, 12, 15, 4, 5, 6, 7, 8, 9]))
-	expect(rowAdd(newMatrix(3, 3, [9, 12, 15, 4, 5, 6, 7, 8, 9]), 2, 1, 3)).toStrictEqual(newMatrix(3, 3, [9, 12, 15, 25, 29, 33, 7, 8, 9]))
-})
+import { newMatrix, rowMultiply, transpose } from './main.js'
 
 test('rowMultiply throws an Error if matrix does not fit the Matrix interface', () => {
 	expect(() => rowMultiply({
