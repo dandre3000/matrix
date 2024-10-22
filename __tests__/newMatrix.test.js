@@ -38,16 +38,16 @@ test('throw a TypeError if optional argument data is not an object or array', ()
 })
 
 test('throw a ReferenceError if property length of argument data is not defined', () => {
-	expect(() => newMatrix(1, 1, {})).toThrow(ReferenceError)
+	expect(() => newMatrix(1, 1, { 0: 0 })).toThrow(ReferenceError)
 	expect(() => newMatrix(1, 1, { length: undefined })).toThrow(ReferenceError)
 })
 
 test('throw a TypeError if property length of argument data is not a number', () => {
-	expect(() => newMatrix(1, 1, { length: null })).toThrow(TypeError)
-	expect(() => newMatrix(1, 1, { length: true })).toThrow(TypeError)
-	expect(() => newMatrix(1, 1, { length: '0' })).toThrow(TypeError)
-	expect(() => newMatrix(1, 1, { length: Symbol() })).toThrow(TypeError)
-	expect(() => newMatrix(1, 1, { length: {} })).toThrow(TypeError)
+	expect(() => newMatrix(1, 1, { 0: 0, length: null })).toThrow(TypeError)
+	expect(() => newMatrix(1, 1, { 0: 0, length: true })).toThrow(TypeError)
+	expect(() => newMatrix(1, 1, { 0: 0, length: '0' })).toThrow(TypeError)
+	expect(() => newMatrix(1, 1, { 0: 0, length: Symbol() })).toThrow(TypeError)
+	expect(() => newMatrix(1, 1, { 0: 0, length: {} })).toThrow(TypeError)
 })
 
 test('throw a TypeError if any enumerable property of argument data is not a number', () => {
@@ -97,8 +97,7 @@ test('return an object that fits the Matrix interface', () => {
 		expect(columns % 1).toEqual(0)
 		
 		// is matrix ArrayLike<number>
-		
-		expect(matrix).toHaveLength(rows * columns)
+		expect(matrix.data).toHaveLength(rows * columns)
 		
 		// elements
 		for (let i = 0; i < length; i++) {
