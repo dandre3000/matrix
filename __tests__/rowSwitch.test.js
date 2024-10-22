@@ -163,12 +163,13 @@ test('Throw TypeError if result is not an object', () => {
 test('Switch row a with row b', () => {
 	expect(rowSwitch({
 		data: [
-			1, 2,
-			3, 4
+			1, 2, 3,
+			4, 5, 6,
+			7, 8, 9
 		],
-		rows: 2,
-		columns: 2
-	}, 0, 1)).toStrictEqual([3, 4, 1, 2])
+		rows: 3,
+		columns: 3
+	}, 1, 0)).toStrictEqual([4, 5, 6, 1, 2, 3, 7, 8, 9])
 })
 
 test('Return and fill result', () => {
