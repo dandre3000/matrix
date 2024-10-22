@@ -36,15 +36,15 @@ declare module "Matrix" {
 	
 	export function isMatrix(matrix: Matrix): boolean
 	
-	export function add(a: Matrix, b: Matrix, sum: ArrayLikeNumber): ArrayLikeNumber
+	export function add(a: Matrix, b: Matrix, result: ArrayLikeNumber): ArrayLikeNumber
 	
-	export function subtract(a: Matrix, b: Matrix, difference: ArrayLikeNumber): ArrayLikeNumber
+	export function subtract(a: Matrix, b: Matrix, result: ArrayLikeNumber): ArrayLikeNumber
 	
-	export function multiplyScalar(a: Matrix, b: number, product: ArrayLikeNumber): ArrayLikeNumber
+	export function multiplyScalar(a: Matrix, b: number, result: ArrayLikeNumber): ArrayLikeNumber
 	
-	export function divideScalar(a: Matrix, b: number, quotient: ArrayLikeNumber): ArrayLikeNumber
+	export function divideScalar(a: Matrix, b: number, result: ArrayLikeNumber): ArrayLikeNumber
 	
-	export function multiplyMatrix(a: Matrix, b: Matrix, product: ArrayLikeNumber): ArrayLikeNumber
+	export function multiplyMatrix(a: Matrix, b: Matrix, result: ArrayLikeNumber): ArrayLikeNumber
 	
 	export function rowSwitch(matrix: Matrix, a: number, b: number, result: ArrayLikeNumber): ArrayLikeNumber
 	
@@ -52,7 +52,7 @@ declare module "Matrix" {
 	
 	export function rowMultiply(matrix: Matrix, a: number, n: number, result: ArrayLikeNumber): ArrayLikeNumber
 	
-	export function transpose(matrix: Matrix, transpose: ArrayLikeNumber): ArrayLikeNumber
+	export function transpose(matrix: Matrix, result: ArrayLikeNumber): ArrayLikeNumber
 	
 	export function convertDOMMatrixToMatrix(domMatrix: DOMMatrix): Matrix
 	
