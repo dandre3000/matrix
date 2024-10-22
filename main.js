@@ -332,10 +332,12 @@ export const rowAdd = (matrix, a, b, n, result = []) => {
 export const rowMultiply = (matrix, a, n, result = []) => {
 	checkMatrix(matrix)
 	
-	if (typeof a !== 'number') throw new TypeError('a must be a number')
+	if (a === undefined) throw new ReferenceError('a must be defined')
+	else if (typeof a !== 'number') throw new TypeError('a must be a number')
 	else if (a % 1 > 0) throw new RangeError('a must be an integer')
 	else if (a < 0 || a > matrix.rows - 1) throw new RangeError('a must be greater than or equal to 0 and less than matrix.rows')
 	
+	else if (n === undefined) throw new ReferenceError('n must be defined')
 	else if (typeof n !== 'number') throw new TypeError('n must be a number')
 	
 	else if (typeof result !== 'object' || result === null) throw new TypeError('result must be an object or array')
@@ -372,7 +374,8 @@ export const transpose = (matrix, result = []) => {
 
 /** @type {import('Matrix').convertDOMMatrixToMatrix} */
 export const convertDOMMatrixToMatrix = domMatrix => {
-	if ((domMatrix instanceof DOMMatrix) === false) throw new TypeError('domMatrix must be an instance of DOMMatrix')
+	if (domMatrix === undefined) throw new ReferenceError('domMatrix must be defined')
+	else if ((domMatrix instanceof DOMMatrix) === false) throw new TypeError('domMatrix must be an instance of DOMMatrix')
 	
 	const matrix = newMatrix(4, 4)
 	
