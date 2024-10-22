@@ -59,13 +59,14 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 	else if (buffer.byteLength - byteOffset < (rows * columns * 8)) throw new RangeError('buffer.byteLength minus byteOffset must be less than or equal to the byteLength required to store the whole matrix (rows * columns * 8)')
 	
 	/** Can not convert Float64Array to Matrix @type {*} */
-	const matrix = new Float64Array(buffer, byteOffset, rows * columns)
+	// const matrix = new Float64Array(buffer, byteOffset, rows * columns)
+	const matrix = { data: new Float64Array(buffer, byteOffset, rows * columns) }
 	
 	if (data !== undefined) {
-		const length = Math.min(data.length, matrix.length)
+		const length = Math.min(data.length, matrix.data.length)
 		
 		for (let i = 0; i < length; i++) {
-			matrix[i] = data[i]
+			matrix.data[i] = data[i]
 		}
 	}
 	
@@ -73,7 +74,7 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 	Object.defineProperty(matrix, 'rows', {
 		value: rows,
 		configurable: false,
-		enumerable: false,
+		enumerable: true,
 		writable: false
 	})
 	
@@ -81,7 +82,7 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 	Object.defineProperty(matrix, 'columns', {
 		value: columns,
 		configurable: false,
-		enumerable: false,
+		enumerable: true,
 		writable: false
 	})
 	
@@ -101,7 +102,7 @@ export const checkMatrix = matrix => {
 	else if (validSet.has(matrix) === true) return matrix
 	
 	else {
-		const { columns, length, rows } = matrix
+		const { columns, data, rows } = matrix
 		
 		// is rows an integer greater than or equal to 1
 		if (rows === undefined) throw new ReferenceError('matrix.rows must be defined')
@@ -115,15 +116,18 @@ export const checkMatrix = matrix => {
 		else if (columns % 1 !== 0) throw new RangeError('matrix.columns must be an integer')
 		else if (columns < 1) throw new RangeError('matrix.columns must be greater than or equal to 1')
 		
-		// is matrix ArrayLike<number>
-		else if (length === undefined) throw new ReferenceError('matrix.length must be defined')
-		else if (typeof length !== 'number') throw new TypeError('matrix.length must be a number')
-		else if (length !== rows * columns) throw new RangeError('matrix.length must equal rows * columns')
+		// is matrix.data ArrayLike<number>
+		else if (data === undefined) throw new ReferenceError('matrix.data must be defined')
+		else if (typeof data !== 'object' ||
+			data === null) throw new TypeError('matrix.data must be an object or array')
+		else if (data.length === undefined) throw new ReferenceError('matrix.data.length must be defined')
+		else if (typeof data.length !== 'number') throw new TypeError('matrix.data.length must be a number')
+		else if (data.length !== rows * columns) throw new RangeError('matrix.data.length must equal rows * columns')
 		
 		// elements
-		else if ((ArrayBuffer.isView(matrix) === true && (matrix instanceof DataView) === false) === false) { // matrix is not TypedArray
-			for (let i = 0; i < length; i++) {
-				if (typeof matrix[i] !== 'number') throw new TypeError(`matrix[${i}] must be a number`)
+		else if ((ArrayBuffer.isView(data) === true && (data instanceof DataView) === false) === false) { // matrix.data is not TypedArray
+			for (let i = 0; i < data.length; i++) {
+				if (typeof data[i] !== 'number') throw new TypeError(`matrix.data[${i}] must be a number`)
 			}
 		}
 		
@@ -141,7 +145,7 @@ export const isMatrix = matrix => {
 	else if (validSet.has(matrix) === true) return true
 	
 	else {
-		const { columns, length, rows } = matrix
+		const { columns, data, rows } = matrix
 		
 		// is rows an integer greater than or equal to 1
 		if (rows === undefined || // matrix.rows is not defined
@@ -156,14 +160,16 @@ export const isMatrix = matrix => {
 			columns < 1 || // matrix.columns is less than 1
 		
 		// is matrix ArrayLike<number>
-			length === undefined || // matrix.length is not defined
-			typeof length !== 'number' || // matrix.length is not a number
-			length !== rows * columns) return false // matrix.length does not equal rows * columns
+			data === undefined || // data.matrix is not defined
+			typeof data !== 'object' || data === null || // data.matrix is not an object or array
+			data.length === undefined || // matrix.data.length is not defined
+			typeof data.length !== 'number' || // matrix.data.length is not a number
+			data.length !== rows * columns) return false // matrix.data.length does not equal rows * columns
 		
 		// elements
-		else if ((ArrayBuffer.isView(matrix) === true && (matrix instanceof DataView) === false) === false) { // matrix is not TypedArray
-			for (let i = 0; i < length; i++) {
-				if (typeof matrix[i] !== 'number') return false // matrix is not an array of only numbers
+		else if ((ArrayBuffer.isView(data) === true && (data instanceof DataView) === false) === false) { // matrix.data is not TypedArray
+			for (let i = 0; i < data.length; i++) {
+				if (typeof data[i] !== 'number') return false // matrix.data is not an array of only numbers
 			}
 		}
 		
@@ -172,7 +178,7 @@ export const isMatrix = matrix => {
 }
 
 /** @type {import('Matrix').add} */
-export const add = (a, b, sum = newMatrix(a.rows, a.columns)) => {
+export const add = (a, b, sum = []) => {
 	checkMatrix(a)
 	checkMatrix(b)
 	
@@ -180,21 +186,15 @@ export const add = (a, b, sum = newMatrix(a.rows, a.columns)) => {
 		throw new RangeError('The dimensions of a must equal the dimensions of b')
 	}
 	
-	checkMatrix(sum)
-	
-	if (sum.columns !== a.columns || sum.rows !== a.rows) {
-		throw new RangeError('The dimensions of the sum must equal the dimensions of a and b')
-	}
-	
-	for (let i = 0; i < a.length; i++) {
-		sum[i] = a[i] + b[i]
+	for (let i = 0; i < a.data.length; i++) {
+		sum[i] = a.data[i] + b.data[i]
 	}
 	
 	return sum
 }
 
 /** @type {import('Matrix').subtract} */
-export const subtract = (a, b, difference = newMatrix(a.rows, a.columns)) => {
+export const subtract = (a, b, difference = []) => {
 	checkMatrix(a)
 	checkMatrix(b)
 	
@@ -202,59 +202,41 @@ export const subtract = (a, b, difference = newMatrix(a.rows, a.columns)) => {
 		throw new RangeError('The dimensions of a must equal the dimensions of b')
 	}
 	
-	checkMatrix(difference)
-	
-	if (difference.columns !== a.columns || difference.rows !== a.rows) {
-		throw new RangeError('The dimensions of the difference must equal the dimensions of a and b')
-	}
-	
-	for (let i = 0; i < a.length; i++) {
-		difference[i] = a[i] - b[i]
+	for (let i = 0; i < a.data.length; i++) {
+		difference[i] = a.data[i] - b.data[i]
 	}
 	
 	return difference
 }
 
 /** @type {import('Matrix').multiplyScalar} */
-export const multiplyScalar = (a, b, product = newMatrix(a.rows, a.columns, a)) => {
+export const multiplyScalar = (a, b, product = []) => {
 	checkMatrix(a)
 	
 	if (typeof b !== 'number') throw new TypeError('b must be a number')
 	
-	checkMatrix(product)
-	
-	if (product.rows !== a.rows || product.columns !== a.columns) {
-		throw new Error('The dimensions of product must equal the dimensions of a')
-	}
-	
 	for (let i = 0; i < product.length; i++) {
-		product[i] *= b
+		product[i] = a.data[i] * b
 	}
 	
 	return product
 }
 
 /** @type {import('Matrix').divideScalar} */
-export const divideScalar = (a, b, quotient = newMatrix(a.rows, a.columns, a)) => {
+export const divideScalar = (a, b, quotient = []) => {
 	checkMatrix(a)
 	
 	if (typeof b !== 'number') throw new TypeError('b must be a number')
 	
-	checkMatrix(quotient)
-	
-	if (quotient.rows !== a.rows || quotient.columns !== a.columns) {
-		throw new Error('The dimensions of quotient must equal the dimensions of a')
-	}
-	
 	for (let i = 0; i < quotient.length; i++) {
-		quotient[i] /= b
+		quotient[i] = a.data[i] / b
 	}
 	
 	return quotient
 }
 
 /** @type {import('Matrix').multiplyMatrix} */
-export const multiplyMatrix = (a, b, product = newMatrix(a.rows, b.columns)) => {
+export const multiplyMatrix = (a, b, product = []) => {
 	checkMatrix(a)
 	checkMatrix(b)
 	
@@ -262,18 +244,12 @@ export const multiplyMatrix = (a, b, product = newMatrix(a.rows, b.columns)) => 
 		throw new RangeError('Number of columns in a must be equal to the number of rows in b')
 	}
 	
-	checkMatrix(product)
-	
-	if (product.rows !== a.rows || product.columns !== b.columns) {
-		throw new Error('The dimensions of the product must equal (a rows) * (b columns)')
-	}
-	
 	for (let i = 0; i < a.rows; i++) {
 		for (let j = 0; j < b.columns; j++) {
 			let sum = 0
 			
 			for (let k = 0; k < a.columns; k++) {
-				sum += a[i * a.columns + k] * b[k * b.columns + j]
+				sum += a.data[i * a.columns + k] * b.data[k * b.columns + j]
 			}
 			
 			product[i * b.columns + j] = sum
@@ -284,31 +260,23 @@ export const multiplyMatrix = (a, b, product = newMatrix(a.rows, b.columns)) => 
 }
 
 /** @type {import('Matrix').rowSwitch} */
-export const rowSwitch = (matrix, a, b, result = newMatrix(matrix.rows, matrix.columns, matrix)) => {
-	if (a === b) return matrix
-	
+export const rowSwitch = (matrix, a, b, result = []) => {
 	checkMatrix(matrix)
 	
 	if (typeof a !== 'number') throw new TypeError('a must be an integer')
-	if (a % 1 > 0) throw new RangeError('a must be an integer')
+	if (a % 1 !== 0) throw new RangeError('a must be an integer')
 	if (a < 0 || a > matrix.rows - 1) throw new RangeError('a must be greater than or equal to 0 and less than matrix.rows')
 	
 	if (typeof b !== 'number') throw new TypeError('b must be an integer')
-	if (b % 1 > 0) throw new RangeError('b must be an integer')
+	if (b % 1 !== 0) throw new RangeError('b must be an integer')
 	if (b < 0 || b > matrix.rows - 1) throw new RangeError('b must be greater than or equal to 0 and less than matrix.rows')
-	
-	checkMatrix(result)
-	
-	if (result.columns !== matrix.columns || result.rows !== matrix.rows) {
-		throw new RangeError('The dimensions of result must equal the dimensions of matrix')
-	}
 	
 	const columns = matrix.columns
 	
 	for (let i = 0; i < columns; i++) {
-		const n = matrix[a * columns + i]
+		const n = matrix.data[a * columns + i]
 		
-		result[a * columns + i] = matrix[b * columns + i]
+		result[a * columns + i] = matrix.data[b * columns + i]
 		result[b * columns + i] = n
 	}
 	
@@ -316,9 +284,7 @@ export const rowSwitch = (matrix, a, b, result = newMatrix(matrix.rows, matrix.c
 }
 
 /** @type {import('Matrix').rowAdd} */
-export const rowAdd = (matrix, a, b, n, result = newMatrix(matrix.rows, matrix.columns, matrix)) => {
-	if (a === b) return matrix
-	
+export const rowAdd = (matrix, a, b, n, result = []) => {
 	checkMatrix(matrix)
 	
 	if (typeof a !== 'number') throw new TypeError('a must be an integer')
@@ -331,23 +297,17 @@ export const rowAdd = (matrix, a, b, n, result = newMatrix(matrix.rows, matrix.c
 	
 	if (typeof n !== 'number') throw new TypeError('n must be a number')
 	
-	checkMatrix(result)
-	
-	if (result.columns !== matrix.columns || result.rows !== matrix.rows) {
-		throw new RangeError('The dimensions of result must equal the dimensions of matrix')
-	}
-	
 	const columns = matrix.columns
 	
 	for (let i = 0; i < columns; i++) {
-		result[b * columns + i] += matrix[a * columns + i] * n
+		result[b * columns + i] = matrix.data[b * columns + i] + matrix.data[a * columns + i] * n
 	}
 	
 	return result
 }
 
 /** @type {import('Matrix').rowMultiply} */
-export const rowMultiply = (matrix, a, n, result = newMatrix(matrix.rows, matrix.columns, matrix)) => {
+export const rowMultiply = (matrix, a, n, result = []) => {
 	checkMatrix(matrix)
 	
 	if (typeof a !== 'number') throw new TypeError('a must be an integer')
@@ -356,42 +316,24 @@ export const rowMultiply = (matrix, a, n, result = newMatrix(matrix.rows, matrix
 	
 	if (typeof n !== 'number') throw new TypeError('n must be a number')
 	
-	checkMatrix(result)
-	
-	if (result.columns !== matrix.columns || result.rows !== matrix.rows) {
-		throw new RangeError('The dimensions of result must equal the dimensions of matrix')
-	}
-	
-	if (n === 1) return matrix
-	
 	const columns = matrix.columns
 	
 	for (let i = 0; i < columns; i++) {
-		result[a * columns + i] *= n
+		result[a * columns + i] = matrix.data[a * columns + i] * n
 	}
 	
 	return result
 }
 
 /** @type {import('Matrix').transpose} */
-export const transpose = (matrix, transpose) => {
+export const transpose = (matrix, transpose = []) => {
 	checkMatrix(matrix)
 	
 	const { rows, columns } = matrix
 	
-	if (transpose === undefined) {
-		transpose = newMatrix(columns, rows)
-	} else {
-		checkMatrix(transpose)
-		
-		if (transpose.rows !== columns || transpose.columns !== rows) {
-			throw new Error('The dimensions of the transpose must equal (matrix.columns) * (matrix.rows)')
-		}
-	}
-	
 	for (let i = 0; i < rows; i++) {
 		for (let j = 0; j < columns; j++) {
-			transpose[j * rows + i] = matrix[i * columns + j]
+			transpose[j * rows + i] = matrix.data[i * columns + j]
 		}
 	}
 	
@@ -406,7 +348,7 @@ export const convertDOMMatrixToMatrix = domMatrix => {
 	
 	for (let i = 0; i < matrix.rows; i++) {
 		for (let j = 0; j < matrix.columns; j++) {
-			matrix[i * matrix.columns + j] = /** String can not be used to index DOMMatrix: @type {*} */ (domMatrix)[`m${i + 1}${j + 1}`]
+			matrix.data[i * matrix.columns + j] = /** String can not be used to index DOMMatrix: @type {*} */ (domMatrix)[`m${i + 1}${j + 1}`]
 		}
 	}
 	
@@ -417,7 +359,7 @@ export const convertDOMMatrixToMatrix = domMatrix => {
 export const convertMatrixToDOMMatrix = matrix => {
 	checkMatrix(matrix)
 	
-	const domMatrix = new DOMMatrix(/** Can not convert Float64Array to number[]: @type {*} */ (matrix))
+	const domMatrix = new DOMMatrix(/** Can not convert Float64Array to number[]: @type {*} */ (matrix.data))
 	
 	return domMatrix
 }
@@ -435,7 +377,7 @@ export const formatDataRowMajor = matrix => {
 	
 	for (let i = 0; i < matrix.rows; i++) {
 		for (let j = 0; j < matrix.columns; j++) {
-			data[i][j] = matrix[i * matrix.columns + j]
+			data[i][j] = matrix.data[i * matrix.columns + j]
 		}
 	}
 	
@@ -454,7 +396,7 @@ export const formatDataColumnMajor = matrix => {
 	
 	for (let i = 0; i < matrix.rows; i++) {
 		for (let j = 0; j < matrix.columns; j++) {
-			data[j][i] = matrix[i * matrix.columns + j]
+			data[j][i] = matrix.data[i * matrix.columns + j]
 		}
 	}
 	
