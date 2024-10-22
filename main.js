@@ -280,6 +280,10 @@ export const rowSwitch = (matrix, a, b, result = []) => {
 	
 	else if (typeof result !== 'object' || result === null) throw new TypeError('result must be an object or array')
 	
+	for (let i = 0; i < matrix.data.length; i++) {
+		result[i] = matrix.data[i]
+	}
+	
 	const columns = matrix.columns
 	
 	for (let i = 0; i < columns; i++) {
@@ -311,6 +315,10 @@ export const rowAdd = (matrix, a, b, n, result = []) => {
 	
 	else if (typeof result !== 'object' || result === null) throw new TypeError('result must be an object or array')
 	
+	for (let i = 0; i < matrix.data.length; i++) {
+		result[i] = matrix.data[i]
+	}
+	
 	const columns = matrix.columns
 	
 	for (let i = 0; i < columns; i++) {
@@ -331,6 +339,10 @@ export const rowMultiply = (matrix, a, n, result = []) => {
 	else if (typeof n !== 'number') throw new TypeError('n must be a number')
 	
 	else if (typeof result !== 'object' || result === null) throw new TypeError('result must be an object or array')
+	
+	for (let i = 0; i < matrix.data.length; i++) {
+		result[i] = matrix.data[i]
+	}
 	
 	const columns = matrix.columns
 	
