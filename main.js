@@ -59,7 +59,6 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 	else if (buffer.byteLength - byteOffset < (rows * columns * 8)) throw new RangeError('buffer.byteLength minus byteOffset must be less than or equal to the byteLength required to store the whole matrix (rows * columns * 8)')
 	
 	/** Can not convert Float64Array to Matrix @type {*} */
-	// const matrix = new Float64Array(buffer, byteOffset, rows * columns)
 	const matrix = { data: new Float64Array(buffer, byteOffset, rows * columns) }
 	
 	if (data !== undefined) {
