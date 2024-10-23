@@ -124,7 +124,8 @@ console.log(newMatrix(2, 2, [1, 1], buffer, 16))
 console.log(matrix)
 ```
 
-`add` returns the sum of arguments `a` and `b` using the optional argument `result` as the sum.
+#
+`add` returns the sum of arguments `a` and `b` as an array. Fills and returns the optional argument `result`.
 ```js
 import { add, newMatrix } from '@dandre3000/matrix'
 
@@ -152,6 +153,37 @@ add(a, b, sum)
   ]
 */
 console.log(sum)
+```
+
+#
+`subtract` returns the difference of arguments `a` and `b` as an array. Fills and returns the optional argument `result`.
+```js
+import { subtract, newMatrix } from '@dandre3000/matrix'
+
+const a = newMatrix(3, 3, [
+  1, 2, 3,
+  4, 5, 6,
+  7, 8, 9
+])
+
+const b = newMatrix(3, 3, [
+  10, 11, 12,
+  13, 14, 15,
+  16, 17, 18
+])
+
+const difference = []
+
+subtract(a, b, difference)
+
+/*
+  [
+    -9, -9, -9,
+    -9, -9, -9,
+    -9, -9, -9
+  ]
+*/
+console.log(difference)
 ```
 
 ## License
