@@ -8,78 +8,150 @@ Matrix math library.
 import { add, newMatrix } from '@dandre3000/matrix'
 
 /*
-  [
-    0, 0,
-    0, 0
-  ]
+  {
+    data: [
+      0, 0,
+      0, 0
+    ],
+    rows: 2,
+    columns: 2
+  }
 */
 newMatrix(2, 2)
 
 /*
-  [
-    6, 8,
-    10, 12
-  ]
+  {
+    data: [
+      6, 8,
+      10, 12
+    ],
+    rows: 2,
+    columns: 2
+  }
 */
 add(newMatrix(2, 2, [1, 2, 3, 4]), newMatrix(2, 2, [5, 6, 7, 8]))
 ```
 
 ## API
-`newMatrix` creates a `Float64Array` instance that fits the `Matrix` interface. Properties `rows` and `columns` of the created `Matrix` are non-configurable and read-only.
-Arguments `data`, `buffer` and `byteOffset` are optional. The `Matrix` will be filled with the elements contained in `data`.
-`data.length` may be greater or less than `Matrix.length`. `buffer.length - byteOffset` must be greater than the amount of memory required to contain the whole `Matrix` ie. `Matrix.rows * Matrix.columns * 8 // 64 bits == 8 bytes`.
+`newMatrix` returns a new object that fits the `Matrix` interface. Properties `rows` and `columns` are non-configurable and read-only.
+Arguments `data`, `buffer` and `byteOffset` are optional. Property `data` will be filled with the elements contained in `data`.
+`data.length` may be greater or less than `Matrix.data.length`. `buffer.length - byteOffset` must be greater than the amount of memory required to contain the whole `Matrix` ie. `Matrix.rows * Matrix.columns * 8 // 64 bits == 8 bytes`.
 ```js
-import { newMatrix } from './main.min.js'
-
-// [0]
-newMatrix(1, 1)
+import { newMatrix } from '@dandre3000/matrix'
 
 /*
-  [
-    2, 2,
-    0, 0
-  ]
+  {
+    data: [0],
+    rows: 1,
+    columns: 1
+  }
 */
-newMatrix(2, 2, [2, 2])
-
-// [1, 2, 3, 4,]
-newMatrix(4, 1, [1, 2, 3, 4, 5])
+console.log(newMatrix(1, 1))
 
 /*
-  [
-    6,
-    7,
-    8,
-    9,
-  ]
+  {
+    data: [
+      2, 2,
+      0, 0
+    ],
+    rows: 2,
+    columns: 2
+  }
 */
-newMatrix(1, 4, [6, 7, 8, 9])
+console.log(newMatrix(2, 2, [2, 2]))
+
+/*
+  {
+    data: [
+      1,
+      2,
+      3,
+      4
+    ],
+    rows: 4,
+    columns: 1
+  }
+*/
+console.log(newMatrix(4, 1, [1, 2, 3, 4, 5]))
+
+/*
+  {
+    data: [6, 7, 8, 9],
+    rows: 1,
+    columns: 4
+  }
+*/
+console.log(newMatrix(1, 4, [6, 7, 8, 9]))
 
 const buffer = new ArrayBuffer(6 * 8 * 2)
 
-/*
-  [
-    0, 0,
-    0, 0
-  ]
-*/
 const matrix = newMatrix(2, 2, undefined, buffer, 0)
 
 /*
-  [
-    1, 1,
-    0, 0
-  ]
+  {
+    data: [
+      0, 0,
+      0, 0
+    ],
+    rows: 2,
+    columns: 2
+  }
 */
-newMatrix(2, 2, [1, 1], buffer, 16)
+console.log(matrix)
+
+/*
+  {
+    data: [
+      1, 1,
+      0, 0
+    ],
+    rows: 2,
+    columns: 2
+  }
+*/
+console.log(newMatrix(2, 2, [1, 1], buffer, 16))
+
+/*
+  {
+    data: [
+      0, 0,
+      1, 1
+    ],
+    rows: 2,
+    columns: 2
+  }
+*/
+console.log(matrix)
+```
+
+`add` returns the sum of arguments `a` and `b` using the optional argument `result` as the sum.
+```js
+import { add, newMatrix } from '@dandre3000/matrix'
+
+const a = newMatrix(3, 3, [
+  1, 2, 3,
+  4, 5, 6,
+  7, 8, 9
+])
+
+const b = newMatrix(3, 3, [
+  10, 11, 12,
+  13, 14, 15,
+  16, 17, 18
+])
+
+const sum = []
+
+add(a, b, sum)
 
 /*
   [
-    0, 0,
-    1, 1
+    11, 13, 15,
+    17, 19, 21,
+    23, 25, 27
   ]
 */
-console.log(matrix)
+console.log(sum)
 ```
 
 ## License
