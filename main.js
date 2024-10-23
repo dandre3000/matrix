@@ -20,6 +20,31 @@
 
 'use strict'
 
+const DOMMatrixKeys = ['a', 'b', 'c', 'd', 'e', 'f']
+for (let i = 1; i < 5; i++) {
+	for (let j = 1; j < 5; j++) {
+		DOMMatrixKeys.push(`m${i}${j}`)
+	}
+}
+
+/** @type {import('Matrix').checkDOMMatrix} */
+const checkDOMMatrix = domMatrix => {
+	if (domMatrix === undefined) throw new ReferenceError('domMatrix must be defined')
+	else if (typeof DOMMatrix === 'function' && (domMatrix instanceof globalThis.DOMMatrix) === true) return domMatrix // validated
+	else if (typeof domMatrix !== 'object' || domMatrix === null) throw new TypeError('domMatrix must be an object or array')
+	else if (domMatrix.is2D === undefined) throw new ReferenceError('domMatrix.is2D must be defined')
+	else if (typeof domMatrix.is2D !== 'boolean') throw new TypeError('domMatrix.is2D must be true or false')
+	else if (domMatrix.isIdentity === undefined) throw new ReferenceError('domMatrix.isIdentity must be defined')
+	else if (typeof domMatrix.isIdentity !== 'boolean') throw new TypeError('domMatrix.isIdentity must be true or false')
+	
+	for (let i = 0; i < DOMMatrixKeys.length; i++) {
+		if ( /** String can not be used to index DOMMatrix @type {*} */ (domMatrix)[DOMMatrixKeys[i]] === undefined) throw new ReferenceError(`domMatrix[${DOMMatrixKeys[i]}] must be defined`)
+		else if (typeof /** String can not be used to index DOMMatrix  @type {*} */ (domMatrix)[DOMMatrixKeys[i]] !== 'number') throw new TypeError(`domMatrix[${DOMMatrixKeys[i]}] must be a number`)
+	}
+	
+	return domMatrix
+}
+
 /** type {WeakSet<Matrix>} */
 const validSet = new WeakSet
 
@@ -58,8 +83,7 @@ export const newMatrix = (rows, columns, data, buffer = new ArrayBuffer(rows * c
 	else if (typeof byteOffset !== 'number') throw new TypeError('byteOffset must be a number')
 	else if (buffer.byteLength - byteOffset < (rows * columns * 8)) throw new RangeError('buffer.byteLength minus byteOffset must be less than or equal to the byteLength required to store the whole matrix (rows * columns * 8)')
 	
-	/** Can not convert Float64Array to Matrix @type {*} */
-	const matrix = { data: new Float64Array(buffer, byteOffset, rows * columns) }
+	const matrix = { data: new Float64Array(buffer, byteOffset, rows * columns), rows, columns }
 	
 	if (data !== undefined) {
 		const length = Math.min(data.length, matrix.data.length)
@@ -374,8 +398,7 @@ export const transpose = (matrix, result = []) => {
 
 /** @type {import('Matrix').convertDOMMatrixToMatrix} */
 export const convertDOMMatrixToMatrix = domMatrix => {
-	if (domMatrix === undefined) throw new ReferenceError('domMatrix must be defined')
-	else if ((domMatrix instanceof DOMMatrix) === false) throw new TypeError('domMatrix must be an instance of DOMMatrix')
+	checkDOMMatrix(domMatrix)
 	
 	const matrix = newMatrix(4, 4)
 	
@@ -392,7 +415,56 @@ export const convertDOMMatrixToMatrix = domMatrix => {
 export const convertMatrixToDOMMatrix = matrix => {
 	checkMatrix(matrix)
 	
-	const domMatrix = new DOMMatrix(/** Can not convert Float64Array to number[]: @type {*} */ (matrix.data))
+	if (matrix.rows !== 4) throw new RangeError('matrix.rows must equal 4')
+	else if (matrix.columns !== 4) throw new RangeError('matrix.columns must equal 4')
+	
+	let domMatrix
+	
+	if (typeof DOMMatrix === 'function') domMatrix = new DOMMatrix(/** ArrayLikeNumber is missing Array functions @type {*} */ (matrix.data))
+	else {
+		domMatrix = {
+			is2D: false,
+			isIdentity: true,
+			a: 0,
+			b: 0,
+			c: 0,
+			d: 0,
+			e: 0,
+			f: 0,
+			m11: 0,
+			m12: 0,
+			m13: 0,
+			m14: 0,
+			m21: 0,
+			m22: 0,
+			m23: 0,
+			m24: 0,
+			m31: 0,
+			m32: 0,
+			m33: 0,
+			m34: 0,
+			m41: 0,
+			m42: 0,
+			m43: 0,
+			m44: 0
+		}
+		
+		for (let i = 0; i < matrix.rows; i++) {
+			for (let j = 0; j < matrix.columns; j++) {
+				/** String can not be used to index DOMMatrix: @type {*} */ (domMatrix)[`m${i + 1}${j + 1}`] = matrix.data[i * matrix.columns + j]
+				
+				if (i === j && matrix.data[i * matrix.columns + j] !== 1) domMatrix.isIdentity = false
+				else if (i !== j && matrix.data[i * matrix.columns + j] !== 0) domMatrix.isIdentity = false
+			}
+		}
+		
+		domMatrix.a = domMatrix.m11
+		domMatrix.b = domMatrix.m12
+		domMatrix.c = domMatrix.m21
+		domMatrix.d = domMatrix.m22
+		domMatrix.e = domMatrix.m41
+		domMatrix.f = domMatrix.m42
+	}
 	
 	return domMatrix
 }
