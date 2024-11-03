@@ -5,185 +5,189 @@ Matrix math library.
 `$ npm install @dandre3000/matrix`
 
 ```js
-import { add, newMatrix } from '@dandre3000/matrix'
+import { Matrix } from '@dandre3000/matrix'
 
 /*
   {
-    data: [
-      0, 0,
-      0, 0
-    ],
     rows: 2,
-    columns: 2
+    columns: 2,
+    data: Float64Array[
+      1, 2,
+      3, 4
+    ]
   }
 */
-newMatrix(2, 2)
+const a = new Matrix(2, 2, [1, 2, 3, 4])
 
 /*
   {
-    data: [
+    rows: 2,
+    columns: 2,
+    data: Float64Array[
+      5, 6,
+      7, 8
+    ]
+  }
+*/
+const b = new Matrix(2, 2, [5, 6, 7, 8])
+
+/*
+  {
+    rows: 2,
+    columns: 2,
+    data: Float64Array[
       6, 8,
       10, 12
-    ],
-    rows: 2,
-    columns: 2
+    ]
   }
 */
-add(newMatrix(2, 2, [1, 2, 3, 4]), newMatrix(2, 2, [5, 6, 7, 8]))
+a.add(b)
 ```
 
 ## API
-`newMatrix` returns a new object that fits the `Matrix` interface. Properties `rows` and `columns` are non-configurable and read-only.
-Arguments `data`, `buffer` and `byteOffset` are optional. Property `data` will be filled with the elements contained in `data`.
-`data.length` may be greater or less than `Matrix.data.length`. `buffer.length - byteOffset` must be greater than the amount of memory required to contain the whole `Matrix` ie. `Matrix.rows * Matrix.columns * 8 // 64 bits == 8 bytes`.
 ```js
 import { newMatrix } from '@dandre3000/matrix'
 
 /*
   {
-    data: [0],
     rows: 1,
-    columns: 1
+    columns: 1,
+    data: Float64Array[0]
   }
 */
-console.log(newMatrix(1, 1))
+new Matrix(1, 1)
 
 /*
   {
-    data: [
+    rows: 2,
+    columns: 2,
+    data: Float64Array[
       2, 2,
       0, 0
-    ],
-    rows: 2,
-    columns: 2
+    ]
   }
 */
-console.log(newMatrix(2, 2, [2, 2]))
+new Matrix(2, 2, [2, 2])
 
 /*
   {
-    data: [
+    rows: 4,
+    columns: 1
+    data: Float64Array[
       1,
       2,
       3,
       4
-    ],
-    rows: 4,
-    columns: 1
+    ]
   }
 */
-console.log(newMatrix(4, 1, [1, 2, 3, 4, 5]))
+new Matrix(4, 1, [1, 2, 3, 4, 5])
 
 /*
   {
-    data: [6, 7, 8, 9],
     rows: 1,
-    columns: 4
+    columns: 4,
+    data: Float64Array[6, 7, 8, 9]
   }
 */
-console.log(newMatrix(1, 4, [6, 7, 8, 9]))
+new Matrix(1, 4, [6, 7, 8, 9])
 
-const buffer = new ArrayBuffer(6 * 8 * 2)
-
-const matrix = newMatrix(2, 2, undefined, buffer, 0)
+const buffer = new ArrayBuffer(6 * 8)
 
 /*
   {
-    data: [
+    rows: 2,
+    columns: 2,
+    data: Float64Array[
       0, 0,
       0, 0
-    ],
-    rows: 2,
-    columns: 2
+    ]
   }
 */
-console.log(matrix)
+const matrix = newMatrix(2, 2, { buffer, byteOffset: 0 })
 
 /*
   {
-    data: [
+    rows: 2,
+    columns: 2,
+    data: Float64Array[
       1, 1,
       0, 0
-    ],
-    rows: 2,
-    columns: 2
+    ]
   }
 */
-console.log(newMatrix(2, 2, [1, 1], buffer, 16))
+const matrix = newMatrix(2, 2, [1, 1] { buffer, byteOffset: 16 })
 
 /*
   {
-    data: [
+    rows: 2,
+    columns: 2,
+    data: Float64Array[
       0, 0,
       1, 1
-    ],
-    rows: 2,
-    columns: 2
+    ]
   }
 */
 console.log(matrix)
 ```
 
 #
-`add` returns the sum of arguments `a` and `b` as an array. Fills and returns the optional argument `result`.
 ```js
-import { add, newMatrix } from '@dandre3000/matrix'
+import { Matrix } from '@dandre3000/matrix'
 
-const a = newMatrix(3, 3, [
+const a = new Matrix(3, 3, [
   1, 2, 3,
   4, 5, 6,
   7, 8, 9
 ])
 
-const b = newMatrix(3, 3, [
+const b = new Matrix(3, 3, [
   10, 11, 12,
   13, 14, 15,
   16, 17, 18
 ])
 
-const sum = []
-
-add(a, b, sum)
-
 /*
-  [
-    11, 13, 15,
-    17, 19, 21,
-    23, 25, 27
-  ]
+  {
+    rows: 3,
+    columns: 3,
+    data: Float64Array[
+      11, 13, 15,
+      17, 19, 21,
+      23, 25, 27
+    ]
+  }
 */
-console.log(sum)
+a.sum(b)
 ```
 
 #
-`subtract` returns the difference of arguments `a` and `b` as an array. Fills and returns the optional argument `result`.
 ```js
-import { subtract, newMatrix } from '@dandre3000/matrix'
+import { Matrix } from '@dandre3000/matrix'
 
-const a = newMatrix(3, 3, [
+const a = new Matrix(3, 3, [
   1, 2, 3,
   4, 5, 6,
   7, 8, 9
 ])
 
-const b = newMatrix(3, 3, [
+const b = new Matrix(3, 3, [
   10, 11, 12,
   13, 14, 15,
   16, 17, 18
 ])
 
-const difference = []
-
-subtract(a, b, difference)
-
 /*
-  [
+  {
+    rows: 3,
+	columns: 3,
+    data: Float64Array[
     -9, -9, -9,
     -9, -9, -9,
     -9, -9, -9
   ]
 */
-console.log(difference)
+a.subtract(b)
 ```
 
 ## License
