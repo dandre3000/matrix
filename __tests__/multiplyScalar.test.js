@@ -1,135 +1,43 @@
-import { expect, test } from '@jest/globals'
-import { multiplyScalar } from '../main.js'
+import { expect, test } from 'vitest'
+import { Matrix } from '../src/Matrix.ts'
 
-test('Throw Error if matrix does not fit the Matrix interface', () => {
-	expect(() => multiplyScalar({
-		data: {
-			0: 0,
-			length: 0
-		},
-		rows: 1,
-		columns: 1
-	}, 0)).toThrow(Error)
+test('Throw Error if n is not a number', () => {
+	const a = new Matrix(1, 1)
 	
-	expect(() => multiplyScalar({
-		data: ['0'],
-		rows: 1,
-		columns: 1
-	}, 0)).toThrow(Error)
-	
-	expect(() => multiplyScalar({
-		data: [0],
-		rows: 1.1,
-		columns: 1
-	}, 0)).toThrow(Error)
-	
-	expect(() => multiplyScalar({
-		data: [0],
-		rows: 1,
-		columns: 2
-	}, 0)).toThrow(Error)
+	expect(() => a.multiplyScalar('2')).toThrow(Error)
 })
 
-test('Throw ReferenceError if b is not defined', () => {
-	expect(() => multiplyScalar({
-		data: [0, 0],
-		rows: 2,
-		columns: 1
-	})).toThrow(ReferenceError)
+test('Throw Error if result is defined but not a Matrix instance', () => {
+	const a = new Matrix(1, 1)
+	const b = new Matrix(1, 1)
 	
-	expect(() => multiplyScalar({
-		data: [0, 0],
+	expect(() => a.multiplyScalar(2, {
 		rows: 1,
-		columns: 2
-	}, undefined)).toThrow(ReferenceError)
+		columns: 1,
+		data: [0]
+	})).toThrow(Error)
 })
 
-test('Throw TypeError if b is not a number', () => {
-	expect(() => multiplyScalar({
-		data: [0, 0],
-		rows: 2,
-		columns: 1
-	}, null)).toThrow(TypeError)
+test('Throw Error if the dimensions of this and result are not equal', () => {
+	const a = new Matrix(2, 1)
+	const b = new Matrix(1, 2)
+	const c = new Matrix(1, 1)
 	
-	expect(() => multiplyScalar({
-		data: [0, 0],
-		rows: 1,
-		columns: 2
-	}, true)).toThrow(TypeError)
-	
-	expect(() => multiplyScalar({
-		data: [0, 0],
-		rows: 1,
-		columns: 2
-	}, '0')).toThrow(TypeError)
-	
-	expect(() => multiplyScalar({
-		data: [0, 0],
-		rows: 1,
-		columns: 2
-	}, Symbol())).toThrow(TypeError)
-	
-	expect(() => multiplyScalar({
-		data: [0, 0],
-		rows: 1,
-		columns: 2
-	}, {})).toThrow(TypeError)
+	expect(() => a.multiplyScalar(2, b)).toThrow(Error)
+	expect(() => a.multiplyScalar(2, c)).toThrow(Error)
 })
 
-test('Throw TypeError if result is not an object', () => {
-	expect(() => multiplyScalar({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0, null)).toThrow(TypeError)
+test('Multiply this times n', () => {
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 10, 15, 20])
 	
-	expect(() => multiplyScalar({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0, true)).toThrow(TypeError)
-	
-	expect(() => multiplyScalar({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0, '')).toThrow(TypeError)
-	
-	expect(() => multiplyScalar({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0, Symbol())).toThrow(TypeError)
-	
-	expect(() => multiplyScalar({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0, 0)).toThrow(TypeError)
+	expect(a.multiplyScalar(5)).toStrictEqual(b)
 })
 
-test('Multiply Matrix a * scalar b', () => {
-	expect(multiplyScalar({
-		data: [1, 2, 3],
-		rows: 1,
-		columns: 3
-	}, 0)).toStrictEqual([0, 0, 0])
+test('Return and mutate result', () => {
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [6, 12, 18, 24])
 	
-	expect(multiplyScalar({
-		data: [4, 5, 6],
-		rows: 3,
-		columns: 1
-	}, 5)).toStrictEqual([20, 25, 30])
-})
-
-test('Return and fill result', () => {
-	const result = []
-	
-	expect(multiplyScalar({
-		data: [5],
-		rows: 1,
-		columns: 1
-	}, 1, result)).toBe(result)
-	
-	expect(result).toStrictEqual([5])
+	expect(a.multiplyScalar(6, a)).toBe(a)
+	// expect(a).toStrictEqual(b)
 })

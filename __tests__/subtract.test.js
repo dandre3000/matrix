@@ -1,159 +1,60 @@
-import { expect, test } from '@jest/globals'
-import { subtract } from '../main.js'
+import { expect, test } from 'vitest'
+import { Matrix } from '../src/Matrix.ts'
 
-test('Throw Error if a or b does not fit the Matrix interface', () => {
-	expect(() => subtract({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: {
-			0: 0,
-			length: 0
-		},
-		rows: 1,
-		columns: 1
-	})).toThrow(Error)
+test('Throw Error if matrix is not a Matrix instance', () => {
+	const a = new Matrix(1, 1)
 	
-	expect(() => subtract({
-		data: ['0'],
+	expect(() => a.subtract({
 		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	})).toThrow(Error)
-	
-	expect(() => subtract({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1.1,
-		columns: 1
-	})).toThrow(Error)
-	
-	expect(() => subtract({
-		data: [0],
-		rows: 1,
-		columns: 2
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
+		columns: 1,
+		data: [0]
 	})).toThrow(Error)
 })
 
-test('Throw RangeError if a.rows does not equal b.rows or a.columns does not equal b.columns', () => {
-	expect(() => subtract({
-		data: [0, 0],
-		rows: 2,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 2
-	})).toThrow(RangeError)
+test('Throw Error if the dimensions of this and matrix are not equal', () => {
+	const a = new Matrix(2, 1)
+	const b = new Matrix(1, 2)
+	const c = new Matrix(1, 1)
 	
-	expect(() => subtract({
-		data: [0, 0],
-		rows: 1,
-		columns: 2
-	}, {
-		data: [0],
-		rows: 2,
-		columns: 1
-	})).toThrow(RangeError)
+	expect(() => a.subtract(b)).toThrow(Error)
+	expect(() => a.subtract(c)).toThrow(Error)
+	expect(() => b.subtract(a)).toThrow(Error)
+	expect(() => b.subtract(c)).toThrow(Error)
 })
 
-test('Throw TypeError if result is not an object', () => {
-	expect(() => subtract({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, null)).toThrow(TypeError)
+test('Throw Error if result is defined but not a Matrix instance', () => {
+	const a = new Matrix(1, 1)
+	const b = new Matrix(1, 1)
 	
-	expect(() => subtract({
-		data: [0],
+	expect(() => a.subtract(b, {
 		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, true)).toThrow(TypeError)
-	
-	expect(() => subtract({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, '')).toThrow(TypeError)
-	
-	expect(() => subtract({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, Symbol())).toThrow(TypeError)
-	
-	expect(() => subtract({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0)).toThrow(TypeError)
+		columns: 1,
+		data: [0]
+	})).toThrow(Error)
 })
 
-test('Add a to b', () => {
-	expect(subtract({
-		data: [1, 2, 3],
-		rows: 1,
-		columns: 3
-	}, {
-		data: [4, 5, 6],
-		rows: 1,
-		columns: 3
-	})).toStrictEqual([-3, -3, -3])
+test('Throw Error if the dimensions of this and result are not equal', () => {
+	const a = new Matrix(2, 1)
+	const b = new Matrix(1, 2)
+	const c = new Matrix(1, 1)
 	
-	expect(subtract({
-		data: [4, 5, 6],
-		rows: 3,
-		columns: 1
-	}, {
-		data: [1, 2, 3],
-		rows: 3,
-		columns: 1
-	})).toStrictEqual([3, 3, 3])
+	expect(() => a.subtract(a, b)).toThrow(Error)
+	expect(() => a.subtract(a, c)).toThrow(Error)
 })
 
-test('Return and fill difference', () => {
-	const difference = []
+test('Subtract matrix from this', () => {
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [-4, -4, -4, -4])
 	
-	expect(subtract({
-		data: [5],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [5],
-		rows: 1,
-		columns: 1
-	}, difference)).toBe(difference)
+	expect(a.subtract(b)).toStrictEqual(c)
+})
+
+test('Return and mutate result', () => {
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [4, 4, 4, 4])
 	
-	expect(difference).toStrictEqual([0])
+	expect(b.subtract(a, b)).toBe(b)
+	expect(b).toStrictEqual(c)
 })

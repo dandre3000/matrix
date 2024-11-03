@@ -1,87 +1,25 @@
-import { expect, test } from '@jest/globals'
-import { transpose } from '../main.js'
+import { expect, test } from 'vitest'
+import { Matrix } from '../src/Matrix.ts'
 
-test('Throw Error if matrix does not fit the Matrix interface', () => {
-	expect(() => transpose({
-		data: {
-			0: 0,
-			length: 0
-		},
-		rows: 1,
-		columns: 1
-	})).toThrow(Error)
+test('Throw Error if result is defined but not a Matrix instance, result.columns !== this.columns, or if result.columns !== this.columns', () => {
+	const a = new Matrix(1, 2)
+	const b = new Matrix(2, 1)
 	
-	expect(() => transpose({
-		data: ['0'],
-		rows: 1,
-		columns: 1
-	})).toThrow(Error)
-	
-	expect(() => transpose({
-		data: [0],
-		rows: 1.1,
-		columns: 1
-	})).toThrow(Error)
-	
-	expect(() => transpose({
-		data: [0],
-		rows: 1,
-		columns: 2
-	})).toThrow(Error)
+	expect(() => a.transpose(b)).toThrow(Error)
 })
 
-test('Throw TypeError if result is not an object', () => {
-	expect(() => transpose({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, null)).toThrow(TypeError)
+test('Transpose this', () => {
+	const a = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+	const b = new Matrix(3, 3, [1, 4, 7, 2, 5, 8, 3, 6, 9])
 	
-	expect(() => transpose({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, true)).toThrow(TypeError)
-	
-	expect(() => transpose({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, '')).toThrow(TypeError)
-	
-	expect(() => transpose({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, Symbol())).toThrow(TypeError)
-	
-	expect(() => transpose({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0)).toThrow(TypeError)
+	expect(a.transpose()).toStrictEqual(b)
 })
 
-test('Transpose matrix', () => {
-	expect(transpose({
-		data: [
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9
-		],
-		rows: 3,
-		columns: 3
-	})).toStrictEqual([1, 4, 7, 2, 5, 8, 3, 6, 9])
-})
-
-test('Return and fill result', () => {
-	const result = []
+test('Return and mutate result', () => {
+	const a = new Matrix(3, 3, [1, 4, 7, 2, 5, 8, 3, 6, 9])
+	const b = new Matrix(3, 3)
+	const c = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])
 	
-	expect(transpose({
-		data: [5],
-		rows: 1,
-		columns: 1
-	}, result)).toBe(result)
-	
-	expect(result).toStrictEqual([5])
+	expect(a.transpose(b)).toBe(b)
+	expect(a.transpose(b)).toStrictEqual(c)
 })

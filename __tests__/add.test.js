@@ -1,159 +1,60 @@
-import { expect, test } from '@jest/globals'
-import { add } from '../main.js'
+import { expect, test } from 'vitest'
+import { Matrix } from '../src/Matrix.ts'
 
-test('Throw Error if a or b does not fit the Matrix interface', () => {
-	expect(() => add({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: {
-			0: 0,
-			length: 0
-		},
-		rows: 1,
-		columns: 1
-	})).toThrow(Error)
+test('Throw Error if matrix is not a Matrix instance', () => {
+	const a = new Matrix(1, 1)
 	
-	expect(() => add({
-		data: ['0'],
+	expect(() => a.add({
 		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	})).toThrow(Error)
-	
-	expect(() => add({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1.1,
-		columns: 1
-	})).toThrow(Error)
-	
-	expect(() => add({
-		data: [0],
-		rows: 1,
-		columns: 2
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
+		columns: 1,
+		data: [0]
 	})).toThrow(Error)
 })
 
-test('Throw RangeError if a.rows does not equal b.rows or a.columns does not equal b.columns', () => {
-	expect(() => add({
-		data: [0, 0],
-		rows: 2,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 2
-	})).toThrow(RangeError)
+test('Throw Error if the dimensions of this and matrix are not equal', () => {
+	const a = new Matrix(2, 1)
+	const b = new Matrix(1, 2)
+	const c = new Matrix(1, 1)
 	
-	expect(() => add({
-		data: [0, 0],
-		rows: 1,
-		columns: 2
-	}, {
-		data: [0],
-		rows: 2,
-		columns: 1
-	})).toThrow(RangeError)
+	expect(() => a.add(b)).toThrow(Error)
+	expect(() => a.add(c)).toThrow(Error)
+	expect(() => b.add(a)).toThrow(Error)
+	expect(() => b.add(c)).toThrow(Error)
 })
 
-test('Throw TypeError if result is not an object', () => {
-	expect(() => add({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, null)).toThrow(TypeError)
+test('Throw Error if result is defined but not a Matrix instance', () => {
+	const a = new Matrix(1, 1)
+	const b = new Matrix(1, 1)
 	
-	expect(() => add({
-		data: [0],
+	expect(() => a.add(b, {
 		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, true)).toThrow(TypeError)
-	
-	expect(() => add({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, '')).toThrow(TypeError)
-	
-	expect(() => add({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, Symbol())).toThrow(TypeError)
-	
-	expect(() => add({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0)).toThrow(TypeError)
+		columns: 1,
+		data: [0]
+	})).toThrow(Error)
 })
 
-test('Add a to b', () => {
-	expect(add({
-		data: [1, 2, 3],
-		rows: 1,
-		columns: 3
-	}, {
-		data: [4, 5, 6],
-		rows: 1,
-		columns: 3
-	})).toStrictEqual([5, 7, 9])
+test('Throw Error if the dimensions of this and result are not equal', () => {
+	const a = new Matrix(2, 1)
+	const b = new Matrix(1, 2)
+	const c = new Matrix(1, 1)
 	
-	expect(add({
-		data: [4, 5, 6],
-		rows: 3,
-		columns: 1
-	}, {
-		data: [1, 2, 3],
-		rows: 3,
-		columns: 1
-	})).toStrictEqual([5, 7, 9])
+	expect(() => a.add(a, b)).toThrow(Error)
+	expect(() => a.add(a, c)).toThrow(Error)
 })
 
-test('Return and fill result', () => {
-	const result = []
+test('Add this to matrix', () => {
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [6, 8, 10, 12])
 	
-	expect(add({
-		data: [5],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [5],
-		rows: 1,
-		columns: 1
-	}, result)).toBe(result)
+	expect(a.add(b)).toStrictEqual(c)
+})
+
+test('Return and mutate result', () => {
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [6, 8, 10, 12])
 	
-	expect(result).toStrictEqual([10])
+	expect(b.add(a, b)).toBe(b)
+	expect(b).toStrictEqual(c)
 })

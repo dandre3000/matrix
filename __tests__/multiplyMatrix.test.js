@@ -1,163 +1,57 @@
-import { expect, test } from '@jest/globals'
-import { multiplyMatrix } from '../main.js'
+import { expect, test } from 'vitest'
+import { Matrix } from '../src/Matrix.ts'
 
-test('Throw Error if a or b does not fit the Matrix interface', () => {
-	expect(() => multiplyMatrix({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: {
-			0: 0,
-			length: 0
-		},
-		rows: 1,
-		columns: 1
-	})).toThrow(Error)
+test('Throw Error if matrix is not a Matrix instance', () => {
+	const a = new Matrix(1, 1)
 	
-	expect(() => multiplyMatrix({
-		data: ['0'],
+	expect(() => a.multiplyMatrix({
 		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	})).toThrow(Error)
-	
-	expect(() => multiplyMatrix({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1.1,
-		columns: 1
-	})).toThrow(Error)
-	
-	expect(() => multiplyMatrix({
-		data: [0],
-		rows: 1,
-		columns: 2
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
+		columns: 1,
+		data: [0]
 	})).toThrow(Error)
 })
 
-test('Throw RangeError if a.columns does not equal b.rows', () => {
-	expect(() => multiplyMatrix({
-		data: [0, 0],
-		rows: 1,
-		columns: 2
-	}, {
-		data: [0, 0],
-		rows: 1,
-		columns: 2
-	})).toThrow(RangeError)
+test('Throw Error if this.columns does not equal matrix.rows', () => {
+	const a = new Matrix(2, 1)
+	const b = new Matrix(2, 1)
 	
-	expect(() => multiplyMatrix({
-		data: [0, 0],
-		rows: 2,
-		columns: 1
-	}, {
-		data: [0, 0],
-		rows: 2,
-		columns: 1
-	})).toThrow(RangeError)
+	expect(() => a.multiplyMatrix(b)).toThrow(Error)
+	expect(() => b.multiplyMatrix(a)).toThrow(Error)
 })
 
-test('Throw TypeError if result is not an object', () => {
-	expect(() => multiplyMatrix({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, null)).toThrow(TypeError)
+test('Throw Error if result is defined but not a Matrix instance', () => {
+	const a = new Matrix(1, 1)
+	const b = new Matrix(1, 1)
 	
-	expect(() => multiplyMatrix({
-		data: [0],
+	expect(() => a.multiplyMatrix(b, {
 		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, true)).toThrow(TypeError)
-	
-	expect(() => multiplyMatrix({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, '')).toThrow(TypeError)
-	
-	expect(() => multiplyMatrix({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, Symbol())).toThrow(TypeError)
-	
-	expect(() => multiplyMatrix({
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [0],
-		rows: 1,
-		columns: 1
-	}, 0)).toThrow(TypeError)
+		columns: 1,
+		data: [0]
+	})).toThrow(Error)
 })
 
-test('Multiply a * b', () => {
-	expect(multiplyMatrix({
-		data: [1, 2, 3],
-		rows: 3,
-		columns: 1
-	}, {
-		data: [4, 5, 6],
-		rows: 1,
-		columns: 3
-	})).toStrictEqual([
-		4, 5, 6,
-		8, 10, 12,
-		12, 15, 18
-	])
+test('Throw Error if result.rows does not equal this.rows and result.columns does not equal matrix.columns', () => {
+	const a = new Matrix(1, 2)
+	const b = new Matrix(2, 1)
+	const c = new Matrix(1, 4)
 	
-	expect(multiplyMatrix({
-		data: [4, 5, 6],
-		rows: 1,
-		columns: 3
-	}, {
-		data: [1, 2, 3],
-		rows: 3,
-		columns: 1
-	})).toStrictEqual([32])
+	expect(() => a.multiplyMatrix(b, c)).toThrow(Error)
+	expect(() => b.multiplyMatrix(a, c)).toThrow(Error)
 })
 
-test('Return and fill result', () => {
-	const result = []
+test('Multiply this by matrix', () => {
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [19, 22, 43, 50])
 	
-	expect(multiplyMatrix({
-		data: [5],
-		rows: 1,
-		columns: 1
-	}, {
-		data: [5],
-		rows: 1,
-		columns: 1
-	}, result)).toBe(result)
+	expect(a.multiplyMatrix(b)).toStrictEqual(c)
+})
+
+test('Return and mutate result', () => {
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [23, 34, 31, 46])
 	
-	expect(result).toStrictEqual([25])
+	expect(b.multiplyMatrix(a, b)).toBe(b)
+	expect(b).toStrictEqual(c)
 })
