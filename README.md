@@ -46,7 +46,7 @@ a.add(b)
 
 ## API
 ```js
-import { newMatrix } from '@dandre3000/matrix'
+import { new Matrix } from '@dandre3000/matrix'
 
 /*
   {
@@ -104,7 +104,7 @@ const buffer = new ArrayBuffer(6 * 8)
     ]
   }
 */
-const matrix = newMatrix(2, 2, { buffer, byteOffset: 0 })
+const matrix = new Matrix(2, 2, { buffer, byteOffset: 0 })
 
 /*
   {
@@ -116,7 +116,7 @@ const matrix = newMatrix(2, 2, { buffer, byteOffset: 0 })
     ]
   }
 */
-const matrix = newMatrix(2, 2, [1, 1] { buffer, byteOffset: 16 })
+const matrix = new Matrix(2, 2, [1, 1] { buffer, byteOffset: 16 })
 
 /*
   {
