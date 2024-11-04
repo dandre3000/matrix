@@ -47,12 +47,31 @@ export const Matrix = function(rows, columns, data) {
 		throw new RangeError(`Argument #2 columns must be an integer and greater than or equal to 1: columns = ${columns}`)
 	
 	if (data !== undefined) {
-		if ((data instanceof Float64Array) === false)
-			throw new TypeError(`Argument #3 data must be a Float64Array, data.length must === rows * columns (${rows * columns}) and data.buffer.resizable must === false: data = ${data}`)
+		if (typeof data === 'number') {
+			const array = new Float64Array(rows * columns)
+			
+			for (let i = 0; i < array.length; i++) {
+				array[i] = data
+			}
+			
+			data = array
+		} else if (data instanceof Array) {
+			const array = new Float64Array(rows * columns)
+			const length = Math.min(data.length, array.length)
+			
+			for (let i = 0; i < length; i++) {
+				if (typeof data[i] !== 'number') throw new TypeError(`Argument #3 data must be a number, an Array of numbers of any length or a Float64Array where data.length must === rows * columns (${rows * columns}) and data.buffer.resizable must === false: data[i] = ${data[i]}`)
+				
+				array[i] = data[i]
+			}
+			
+			data = array
+		} else if ((data instanceof Float64Array) === false)
+			throw new TypeError(`Argument #3 data must be a number, an Array of numbers of any length or a Float64Array where data.length must === rows * columns (${rows * columns}) and data.buffer.resizable must === false: data = ${data}`)
 		else if (data.length !== rows * columns)	
-			throw new TypeError(`Argument #3 data must be a Float64Array, data.length must === rows * columns (${rows * columns}) and data.buffer.resizable must === false: data.length = ${data.length}`)
+			throw new TypeError(`Argument #3 data must be a number, an Array of numbers of any length or a Float64Array where data.length must === rows * columns (${rows * columns}) and data.buffer.resizable must === false: data.length = ${data.length}`)
 		else if (data.buffer.resizable === true)	
-			throw new TypeError(`Argument #3 data must be a Float64Array, data.length must === rows * columns (${rows * columns}) and data.buffer.resizable must === false: data.buffer.resizable = ${data.buffer.resizable}`)
+			throw new TypeError(`Argument #3 data must be a number, an Array of numbers of any length or a Float64Array where data.length must === rows * columns (${rows * columns}) and data.buffer.resizable must === false: data.buffer.resizable = ${data.buffer.resizable}`)
 	} else data = new Float64Array(rows * columns)
 	
 	// private rows, columns

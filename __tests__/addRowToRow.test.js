@@ -41,15 +41,15 @@ test('Throw Error if the dimensions of this and result are not equal', () => {
 })
 
 test('Add row a * n to row b', () => {
-	const a = new Matrix(3, 3, new Float64Array([1, 2, 3, 4, 5, 6, 7, 8, 9]))
-	const b = new Matrix(3, 3, new Float64Array([1, 2, 3, 7, 11, 15, 7, 8, 9]))
+	const a = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+	const b = new Matrix(3, 3, [1, 2, 3, 7, 11, 15, 7, 8, 9])
 	
 	expect(a.addRowToRow(0, 1, 3)).toStrictEqual(b)
 })
 
 test('Return and mutate result', () => {
-	const a = new Matrix(3, 3, new Float64Array([1, 2, 3, 4, 5, 6, 7, 8, 9]))
-	const b = new Matrix(3, 3, new Float64Array([1, 2, 3, 4, 5, 6, 19, 23, 27]))
+	const a = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+	const b = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 19, 23, 27])
 	
 	expect(a.addRowToRow(1, 2, 3, a)).toBe(a)
 	expect(a).toStrictEqual(b)

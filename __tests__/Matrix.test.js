@@ -19,8 +19,9 @@ test('Throw Error if rows or columns are not integers greater than or equal to 1
 	expect(() => new Matrix(1, 1.1)).toThrow(Error)
 })
 
-test('Throw Error if data is defined but not a Float64Array, data.length !== rows * columns or data.buffer.resizable !== false', () => {
-	expect(() => new Matrix(1, 1, [0])).toThrow(Error)
+test('Throw Error if data is not a number, an Array of numbers of any length or a Float64Array where data.length must === rows * columns and data.buffer.resizable must === false', () => {
+	expect(() => new Matrix(1, 1, '0')).toThrow(Error)
+	expect(() => new Matrix(1, 1, ['0'])).toThrow(Error)
 	expect(() => new Matrix(1, 1, new FLoat64Array([0, 0]))).toThrow(Error)
 	
 	const buffer = new ArrayBuffer(8, { maxByteLength: 16 })
@@ -35,7 +36,22 @@ test('return an object that fits IMatrix', () => {
 	expect(a.data).toStrictEqual(new Float64Array(1))
 })
 
-test('data is assigned to matrix.data', () => {
+test('fill matrix with data if its a number or Array', () => {
+	const array = new Float64Array([9, 9, 9, 9, 9, 9, 9, 9, 9])
+	const a = new Matrix(3, 3, 9)
+	const b = new Matrix(3, 3, [9, 9, 9, 9, 9, 9, 9, 9, 9])
+	
+	expect(a.data).toStrictEqual(array)
+	expect(b.data).toStrictEqual(array)
+	expect(a.data).toStrictEqual(b.data)
+	
+	const array2 = new Float64Array([1, 2, 3, 0, 0, 0, 0, 0, 0])
+	const c = new Matrix(3, 3, [1, 2, 3])
+	
+	expect(c.data).toStrictEqual(array2)
+})
+
+test('data is assigned to matrix.data if it is a Float64Array', () => {
 	const array = new Float64Array([9])
 	const a = new Matrix(1, 1, array)
 	

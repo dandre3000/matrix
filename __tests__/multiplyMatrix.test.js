@@ -40,17 +40,17 @@ test('Throw Error if result.rows does not equal this.rows and result.columns doe
 })
 
 test('Multiply this by matrix', () => {
-	const a = new Matrix(2, 2, new Float64Array([1, 2, 3, 4]))
-	const b = new Matrix(2, 2, new Float64Array([5, 6, 7, 8]))
-	const c = new Matrix(2, 2, new Float64Array([19, 22, 43, 50]))
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [19, 22, 43, 50])
 	
 	expect(a.multiplyMatrix(b)).toStrictEqual(c)
 })
 
 test('Return and mutate result', () => {
-	const a = new Matrix(2, 2, new Float64Array([1, 2, 3, 4]))
-	const b = new Matrix(2, 2, new Float64Array([5, 6, 7, 8]))
-	const c = new Matrix(2, 2, new Float64Array([23, 34, 31, 46]))
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [23, 34, 31, 46])
 	
 	expect(b.multiplyMatrix(a, b)).toBe(b)
 	expect(b).toStrictEqual(c)

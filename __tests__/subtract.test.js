@@ -43,17 +43,17 @@ test('Throw Error if the dimensions of this and result are not equal', () => {
 })
 
 test('Subtract matrix from this', () => {
-	const a = new Matrix(2, 2, new Float64Array([1, 2, 3, 4]))
-	const b = new Matrix(2, 2, new Float64Array([5, 6, 7, 8]))
-	const c = new Matrix(2, 2, new Float64Array([-4, -4, -4, -4]))
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [-4, -4, -4, -4])
 	
 	expect(a.subtract(b)).toStrictEqual(c)
 })
 
 test('Return and mutate result', () => {
-	const a = new Matrix(2, 2, new Float64Array([1, 2, 3, 4]))
-	const b = new Matrix(2, 2, new Float64Array([5, 6, 7, 8]))
-	const c = new Matrix(2, 2, new Float64Array([4, 4, 4, 4]))
+	const a = new Matrix(2, 2, [1, 2, 3, 4])
+	const b = new Matrix(2, 2, [5, 6, 7, 8])
+	const c = new Matrix(2, 2, [4, 4, 4, 4])
 	
 	expect(b.subtract(a, b)).toBe(b)
 	expect(b).toStrictEqual(c)

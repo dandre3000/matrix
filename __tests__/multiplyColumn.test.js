@@ -33,15 +33,15 @@ test('Throw Error if the dimensions of this and result are not equal', () => {
 })
 
 test('Multiply column * n', () => {
-	const a = new Matrix(3, 3, new FLoat64Array([1, 2, 3, 4, 5, 6, 7, 8, 9]))
-	const b = new Matrix(3, 3, new FLoat64Array([10, 2, 3, 40, 5, 6, 70, 8, 9]))
+	const a = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+	const b = new Matrix(3, 3, [10, 2, 3, 40, 5, 6, 70, 8, 9])
 	
 	expect(a.multiplyColumn(0, 10)).toStrictEqual(b)
 })
 
 test('Return and mutate result', () => {
-	const a = new Matrix(3, 3, new FLoat64Array([1, 2, 3, 4, 5, 6, 7, 8, 9]))
-	const b = new Matrix(3, 3, new FLoat64Array([1, 40, 3, 4, 100, 6, 7, 160, 9]))
+	const a = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+	const b = new Matrix(3, 3, [1, 40, 3, 4, 100, 6, 7, 160, 9])
 	
 	expect(a.multiplyColumn(1, 20, a)).toBe(a)
 	expect(a).toStrictEqual(b)
