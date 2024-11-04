@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { Matrix } from '../src/Matrix.ts'
+import { Matrix } from '../src/Matrix.js'
 
 test('Throw Error if a is not an integer >= 0 and < this.columns', () => {
 	const matrix = new Matrix(1, 2)
@@ -41,15 +41,15 @@ test('Throw Error if the dimensions of this and result are not equal', () => {
 })
 
 test('Add column a * n to column b', () => {
-	const a = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])
-	const b = new Matrix(3, 3, [1, 5, 3, 4, 17, 6, 7, 29, 9])
+	const a = new Matrix(3, 3, new Float64Array([1, 2, 3, 4, 5, 6, 7, 8, 9]))
+	const b = new Matrix(3, 3, new Float64Array([1, 5, 3, 4, 17, 6, 7, 29, 9]))
 	
 	expect(a.addColumnToColumn(0, 1, 3)).toStrictEqual(b)
 })
 
 test('Return and mutate result', () => {
-	const a = new Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])
-	const b = new Matrix(3, 3, [1, 2, 9, 4, 5, 21, 7, 8, 33])
+	const a = new Matrix(3, 3, new Float64Array([1, 2, 3, 4, 5, 6, 7, 8, 9]))
+	const b = new Matrix(3, 3, new Float64Array([1, 2, 9, 4, 5, 21, 7, 8, 33]))
 	
 	expect(a.addColumnToColumn(1, 2, 3, a)).toBe(a)
 	expect(a).toStrictEqual(b)
