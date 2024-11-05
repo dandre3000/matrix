@@ -93,30 +93,11 @@ new Matrix(4, 1, [1, 2, 3, 4, 5])
 new Matrix(1, 4, [6, 7, 8, 9])
 
 const buffer = new ArrayBuffer(6 * 8)
+const array = new Float64Array(buffer, 0, 4)
+const array2 = new Float64Array(buffer, 16, 4)
 
-/*
-  {
-    rows: 2,
-    columns: 2,
-    data: Float64Array[
-      0, 0,
-      0, 0
-    ]
-  }
-*/
-const matrix = new Matrix(2, 2, { buffer, byteOffset: 0 })
-
-/*
-  {
-    rows: 2,
-    columns: 2,
-    data: Float64Array[
-      1, 1,
-      0, 0
-    ]
-  }
-*/
-const matrix = new Matrix(2, 2, [1, 1] { buffer, byteOffset: 16 })
+array2[0] = 1
+array2[1] = 1
 
 /*
   {
@@ -128,7 +109,25 @@ const matrix = new Matrix(2, 2, [1, 1] { buffer, byteOffset: 16 })
     ]
   }
 */
-console.log(matrix)
+const a = new Matrix(2, 2, array)
+
+// true
+a.data === array
+
+/*
+  {
+    rows: 2,
+    columns: 2,
+    data: Float64Array[
+      1, 1,
+      0, 0
+    ]
+  }
+*/
+const b = new Matrix(2, 2, array2)
+
+// true
+b.data === array2
 ```
 
 #
