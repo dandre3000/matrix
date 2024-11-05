@@ -16,7 +16,7 @@
  */
 
 import { privateMap } from './common.js'
-import { add, multiplyMatrix, multiplyScalar, subtract } from './math.js'
+import { add, multiplyMatrix, multiplyScalar, subtract, transpose } from './math.js'
 import { addRowToRow, insertRows, multiplyRow, removeRows, switchRows } from './row.js'
 import { addColumnToColumn, insertColumns, multiplyColumn, removeColumns, switchColumns } from './column.js'
 
@@ -86,33 +86,6 @@ export const Matrix = function(rows, columns, data) {
 	})
 	
 	return this
-}
-
-const transpose = function(result) {
-	if ((this instanceof Matrix) === false)
-		throw new TypeError(`this must be a Matrix instance: this = ${this}`)
-	
-	const { rows: thisRows, columns: thisColumns } = privateMap.get(this)
-	
-	if (result !== undefined) {
-		if ((result instanceof Matrix) === false)
-			throw new TypeError(`Argument #1 result must be a Matrix instance: result = ${result}`)
-		
-		const { rows: resultRows, columns: resultColumns } = privateMap.get(result)
-		
-		if (resultRows !== thisRows)
-			throw new RangeError(`result.rows must equal this.rows: result.rows = ${resultRows}, this.rows = ${thisRows}`)
-		else if (resultColumns !== thisColumns)
-			throw new RangeError(`result.columns must equal this.columns: result.columns = ${resultColumns}, this.columns = ${thisColumns}`)
-	} else result = new Matrix(thisRows, thisColumns)
-	
-	for (let i = 0; i < thisRows; i++) {
-		for (let j = 0; j < thisColumns; j++) {
-			result.data[j * thisRows + i] = this.data[i * thisColumns + j]
-		}
-	}
-	
-	return result
 }
 
 const to2DArrayRowMajor = function() {
