@@ -182,3 +182,83 @@ export const transpose = function(result) {
 	
 	return result
 }
+
+export const luDecomposition = function(result) {
+	if ((this instanceof Matrix) === false)
+		throw new TypeError(`this must be a Matrix instance: this = ${this}`)
+	
+	const { rows: thisRows, columns: thisColumns } = privateMap.get(this)
+	
+	if (result !== undefined) {
+		if (result.l !== undefined) {
+			if ((result.l instanceof Matrix) === false)
+				throw new TypeError(`result.l must be a Matrix instance: result = ${result}`)
+			
+			const { rows: lRows, columns: lColumns } = privateMap.get(result.l)
+			
+			if (lRows !== thisRows)
+				throw new RangeError(`result.l.rows must === this.rows and result.l.columns must === this.rows: result.l.rows = ${lRows}`)
+			else if (lColumns !== thisRows)
+				throw new RangeError(`result.l.rows must === this.rows and result.l.columns must === this.rows: result.l.columns = ${lColumns}`)
+		} else result.l = new Matrix(thisRows, thisRows)
+		
+		if (result.u !== undefined) {
+			if ((result.u instanceof Matrix) === false)
+				throw new TypeError(`result.u must be a Matrix instance: result = ${result}`)
+			
+			const { rows: uRows, columns: uColumns } = privateMap.get(result.u)
+			
+			if (uRows !== thisRows)
+				throw new RangeError(`result.u.rows must === this.rows and result.u.columns must === this.rows: result.u.rows = ${uRows}`)
+			else if (uColumns !== thisColumns)
+				throw new RangeError(`result.u.rows must === this.rows and result.u.columns must === this.columns: result.u.columns = ${uColumns}`)
+		} else result.u = new Matrix(thisRows, thisColumns)
+	} else result = {
+		l: new Matrix(thisRows, thisRows),
+		u: new Matrix(thisRows, thisColumns)
+	}
+	
+	const u = result.u
+	const l = result.l
+	
+	// l identity
+	for (let i = 0; i < thisRows; i++) {
+		l.data[i * thisRows + i] = 1
+	}
+	
+	for (let i = 0; i < thisRows; i++) {
+		for (let j = 0; j < thisColumns; j++) {
+			u.data[i * thisColumns + j] = this.data[i * thisColumns + j]
+		}
+	}
+	
+	// Gaussian elimination
+	for (let i = 0; i < thisColumns; i++) {
+		let swap = false
+		
+		// pivot
+		if (u.data[i * thisColumns + i] === 0) {
+			swap = true
+		}
+		
+		for (let j = i + 1; j < thisRows; j++) {
+			// find 1st non-zero element under the pivot
+			if (u.data[j * thisColumns + i] === 0) continue
+			
+			if (swap === true) {
+				// swap with pivot row
+				swap = false
+				u.switchRows(i, j, u)
+				l.switchRows(i, j, l)
+			} else {
+				// current - pivot * coefficient = 0
+				const coefficient = u.data[j * thisColumns + i] / u.data[i * thisColumns + i]
+				
+				l.data[j * thisRows + i] = coefficient
+				u.addRowToRow(i, j, -1 * coefficient, u)
+			}
+		}
+	}
+	
+	return result
+}
