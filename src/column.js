@@ -51,7 +51,7 @@ export const switchColumns = function(a, b, result) {
 			throw new RangeError(`result.rows must = this.rows: result.rows = ${resultRows}, this.rows = ${thisRows}`)
 		else if (resultColumns !== thisColumns)
 			throw new RangeError(`result.columns must = this.columns: result.columns = ${resultColumns}, this.columns = ${thisColumns}`)
-	} else result = new Matrix(thisRows, thisColumns, this.data)
+	} else result = new Matrix(thisRows, thisColumns, [...this.data])
 	
 	for (let i = 0; i < thisRows; i++) {
 		const n = this.data[i * thisColumns + a]
@@ -99,7 +99,7 @@ export const addColumnToColumn = function(a, b, n = 1, result) {
 			throw new RangeError(`result.rows must equal this.rows (${thisRows}): result.rows = ${resultRows}, this.rows = ${thisRows}`)
 		else if (resultColumns !== thisColumns)
 			throw new RangeError(`result.columns must equal this.columns (${thisColumns}): result.columns = ${resultColumns}, this.columns = ${thisColumns}`)
-	} else result = new Matrix(thisRows, thisColumns, this.data)
+	} else result = new Matrix(thisRows, thisColumns, [...this.data])
 	
 	for (let i = 0; i < thisRows; i++) {
 		result.data[i * thisColumns + b] = this.data[i * thisColumns + b] + this.data[i * thisColumns + a] * n
@@ -136,7 +136,7 @@ export const multiplyColumn = function(column, n, result) {
 			throw new RangeError(`result.rows must equal this.rows (${thisRows}): result.rows = ${resultRows}, this.rows = ${thisRows}`)
 		else if (resultColumns !== thisColumns)
 			throw new RangeError(`result.columns must equal this.columns (${thisColumns}): result.columns = ${resultColumns}, this.columns = ${thisColumns}`)
-	} else result = new Matrix(thisRows, thisColumns, this.data)
+	} else result = new Matrix(thisRows, thisColumns, [...this.data])
 	
 	for (let i = 0; i < thisRows; i++) {
 		result.data[i * thisColumns + column] = this.data[i * thisColumns + column] * n
