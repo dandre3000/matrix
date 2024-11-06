@@ -16,7 +16,7 @@
  */
 
 import { privateMap } from './common.js'
-import { add, luDecomposition, multiplyMatrix, multiplyScalar, subtract, transpose } from './math.js'
+import { add, determinant, luDecomposition, multiplyMatrix, multiplyScalar, subtract, transpose } from './math.js'
 import { addRowToRow, insertRows, multiplyRow, removeRows, switchRows } from './row.js'
 import { addColumnToColumn, insertColumns, multiplyColumn, removeColumns, switchColumns } from './column.js'
 
@@ -132,6 +132,7 @@ Matrix.prototype = {
 	add,
 	addColumnToColumn,
 	addRowToRow,
+	determinant,
 	insertColumns,
 	insertRows,
 	luDecomposition,

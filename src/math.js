@@ -262,3 +262,18 @@ export const luDecomposition = function(result) {
 	
 	return result
 }
+
+export const determinant = function() {
+	if ((this instanceof Matrix) === false)
+		throw new TypeError(`this must be a Matrix instance: this = ${this}`)
+	
+	const thisRows = privateMap.get(this).rows
+	const u = this.luDecomposition().u
+	let result = 1
+	
+	for (let i = 0; i < thisRows; i++) {
+		result *= u.data[i * thisRows + i]
+	}
+	
+	return result
+}
