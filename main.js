@@ -19,20 +19,20 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     throw new ReferenceError(`Argument #1 matrix must be a Matrix instance: matrix = ${r}`);
   if (!(r instanceof u))
     throw new TypeError(`Argument #1 matrix must be a Matrix instance: matrix = ${r}`);
-  const { rows: t, columns: s } = l.get(this), { rows: n, columns: o } = l.get(r);
-  if (t !== n)
-    throw new RangeError(`The dimensions of this must equal the dimensions of matrix: this.rows = ${t}, matrix.rows = ${n}`);
-  if (s !== o)
-    throw new RangeError(`The dimensions of this must equal the dimensions of matrix: this.columns = ${s}, matrix.columns = ${o}`);
+  const { rows: t, columns: n } = l.get(this), { rows: s, columns: o } = l.get(r);
+  if (t !== s)
+    throw new RangeError(`The dimensions of this must equal the dimensions of matrix: this.rows = ${t}, matrix.rows = ${s}`);
+  if (n !== o)
+    throw new RangeError(`The dimensions of this must equal the dimensions of matrix: this.columns = ${n}, matrix.columns = ${o}`);
   if (e !== void 0) {
     if (!(e instanceof u))
       throw new TypeError(`Argument #2 result must be a Matrix instance and result.data.length must be greater than or equal to this.data.length: result = ${e}`);
     const { rows: i, columns: a } = l.get(e);
     if (i !== t)
       throw new RangeError(`result.rows must equal this.rows: result.rows = ${i}, this.rows = ${t}`);
-    if (a !== s)
-      throw new RangeError(`result.columns must equal this.columns: result.columns = ${a}, this.columns = ${s}`);
-  } else e = new u(t, s);
+    if (a !== n)
+      throw new RangeError(`result.columns must equal this.columns: result.columns = ${a}, this.columns = ${n}`);
+  } else e = new u(t, n);
   for (let i = 0; i < this.data.length; i++)
     e.data[i] = this.data[i] + r.data[i];
   return e;
@@ -41,20 +41,20 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     throw new ReferenceError(`Argument #1 matrix must be a Matrix instance: matrix = ${r}`);
   if (!(r instanceof u))
     throw new TypeError(`Argument #1 matrix must be a Matrix instance: matrix = ${r}`);
-  const { rows: t, columns: s } = l.get(this), { rows: n, columns: o } = l.get(r);
-  if (t !== n)
-    throw new RangeError(`The dimensions of this must equal the dimensions of matrix: this.rows = ${t}, matrix.rows = ${n}`);
-  if (s !== o)
-    throw new RangeError(`The dimensions of this must equal the dimensions of matrix: this.columns = ${s}, matrix.columns = ${o}`);
+  const { rows: t, columns: n } = l.get(this), { rows: s, columns: o } = l.get(r);
+  if (t !== s)
+    throw new RangeError(`The dimensions of this must equal the dimensions of matrix: this.rows = ${t}, matrix.rows = ${s}`);
+  if (n !== o)
+    throw new RangeError(`The dimensions of this must equal the dimensions of matrix: this.columns = ${n}, matrix.columns = ${o}`);
   if (e !== void 0) {
     if (!(e instanceof u))
       throw new TypeError(`Argument #2 result must be a Matrix instance and result.data.length must be greater than or equal to this.data.length: result = ${e}`);
     const { rows: i, columns: a } = l.get(e);
     if (i !== t)
       throw new RangeError(`result.rows must equal this.rows: result.rows = ${i}, this.rows = ${t}`);
-    if (a !== s)
-      throw new RangeError(`result.columns must equal this.columns: result.columns = ${a}, this.columns = ${s}`);
-  } else e = new u(t, s);
+    if (a !== n)
+      throw new RangeError(`result.columns must equal this.columns: result.columns = ${a}, this.columns = ${n}`);
+  } else e = new u(t, n);
   for (let i = 0; i < this.data.length; i++)
     e.data[i] = this.data[i] - r.data[i];
   return e;
@@ -63,27 +63,27 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     throw new ReferenceError(`Argument #1 n must be a number: n = ${r}`);
   if (typeof r != "number")
     throw new TypeError(`Argument #1 n must be a number: n = ${r}`);
-  const { rows: t, columns: s } = l.get(this);
+  const { rows: t, columns: n } = l.get(this);
   if (e !== void 0) {
     if (!(e instanceof u))
       throw new TypeError(`Argument #2 result must be a Matrix instance and result.data.length must be greater than or equal to this.data.length: result = ${e}`);
-    const { rows: n, columns: o } = l.get(e);
-    if (n !== t)
-      throw new RangeError(`result.rows must equal this.rows: result.rows = ${n}, this.rows = ${t}`);
-    if (o !== s)
-      throw new RangeError(`result.columns must equal this.columns: result.columns = ${o}, this.columns = ${s}`);
-  } else e = new u(t, s);
-  for (let n = 0; n < this.data.length; n++)
-    e.data[n] = this.data[n] * r;
+    const { rows: s, columns: o } = l.get(e);
+    if (s !== t)
+      throw new RangeError(`result.rows must equal this.rows: result.rows = ${s}, this.rows = ${t}`);
+    if (o !== n)
+      throw new RangeError(`result.columns must equal this.columns: result.columns = ${o}, this.columns = ${n}`);
+  } else e = new u(t, n);
+  for (let s = 0; s < this.data.length; s++)
+    e.data[s] = this.data[s] * r;
   return e;
 }, $ = function(r, e) {
   if (r === void 0)
     throw new ReferenceError(`Argument #1 matrix must be a Matrix instance: matrix = ${r}`);
   if (!(r instanceof u))
     throw new TypeError(`Argument #1 matrix must be a Matrix instance: matrix = ${r}`);
-  const { rows: t, columns: s } = l.get(this), { rows: n, columns: o } = l.get(r);
-  if (s !== n)
-    throw new RangeError(`this.columns must equal matrix.rows: this.columns = ${s}, matrix.rows = ${n}`);
+  const { rows: t, columns: n } = l.get(this), { rows: s, columns: o } = l.get(r);
+  if (n !== s)
+    throw new RangeError(`this.columns must equal matrix.rows: this.columns = ${n}, matrix.rows = ${s}`);
   if (e !== void 0) {
     if (!(e instanceof u))
       throw new TypeError(`Argument #2 result must be a Matrix instance and result.data.length must be greater than or equal to this.data.length: result = ${e}`);
@@ -97,8 +97,8 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
   for (let a = 0; a < t; a++)
     for (let h = 0; h < o; h++) {
       let m = 0;
-      for (let w = 0; w < s; w++)
-        m += this.data[a * s + w] * r.data[w * o + h];
+      for (let w = 0; w < n; w++)
+        m += this.data[a * n + w] * r.data[w * o + h];
       i[a * o + h] = m;
     }
   for (let a = 0; a < i.length; a++)
@@ -111,15 +111,15 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
   if (r !== void 0) {
     if (!(r instanceof u))
       throw new TypeError(`Argument #1 result must be a Matrix instance: result = ${r}`);
-    const { rows: s, columns: n } = l.get(r);
-    if (s !== e)
-      throw new RangeError(`result.rows must equal this.rows: result.rows = ${s}, this.rows = ${e}`);
-    if (n !== t)
-      throw new RangeError(`result.columns must equal this.columns: result.columns = ${n}, this.columns = ${t}`);
+    const { rows: n, columns: s } = l.get(r);
+    if (n !== e)
+      throw new RangeError(`result.rows must equal this.rows: result.rows = ${n}, this.rows = ${e}`);
+    if (s !== t)
+      throw new RangeError(`result.columns must equal this.columns: result.columns = ${s}, this.columns = ${t}`);
   } else r = new u(e, t);
-  for (let s = 0; s < e; s++)
-    for (let n = 0; n < t; n++)
-      r.data[n * e + s] = this.data[s * t + n];
+  for (let n = 0; n < e; n++)
+    for (let s = 0; s < t; s++)
+      r.data[s * e + n] = this.data[n * t + s];
   return r;
 }, b = function(r) {
   if (!(this instanceof u))
@@ -148,59 +148,35 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     l: new u(e, e),
     u: new u(e, t)
   };
-  const s = r.u, n = r.l;
+  const n = r.u, s = r.l;
   for (let o = 0; o < e; o++)
-    n.data[o * e + o] = 1;
+    s.data[o * e + o] = 1;
   for (let o = 0; o < e; o++)
     for (let i = 0; i < t; i++)
-      s.data[o * t + i] = this.data[o * t + i];
+      n.data[o * t + i] = this.data[o * t + i];
   for (let o = 0; o < t; o++) {
     let i = !1;
-    s.data[o * t + o] === 0 && (i = !0);
+    n.data[o * t + o] === 0 && (i = !0);
     for (let a = o + 1; a < e; a++)
-      if (s.data[a * t + o] !== 0)
+      if (n.data[a * t + o] !== 0)
         if (i === !0)
-          i = !1, s.switchRows(o, a, s), n.switchRows(o, a, n);
+          i = !1, n.switchRows(o, a, n), s.switchRows(o, a, s);
         else {
-          const h = s.data[a * t + o] / s.data[o * t + o];
-          n.data[a * e + o] = h, s.addRowToRow(o, a, -1 * h, s);
+          const h = n.data[a * t + o] / n.data[o * t + o];
+          s.data[a * e + o] = h, n.addRowToRow(o, a, -1 * h, n);
         }
   }
   return r;
-}, E = function(r, e, t) {
-  const { rows: s, columns: n } = l.get(this);
-  if (r === void 0)
-    throw new ReferenceError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${s}): a = ${r}`);
-  if (typeof r != "number")
-    throw new TypeError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${s}): a = ${r}`);
-  if (r % 1 !== 0)
-    throw new RangeError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${s}): a = ${r}`);
-  if (r < 0 || r >= s)
-    throw new RangeError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${s}): a = ${r}`);
-  if (e === void 0)
-    throw new ReferenceError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${s}): b = ${e}`);
-  if (typeof e != "number")
-    throw new TypeError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${s}): b = ${e}`);
-  if (e % 1 !== 0)
-    throw new RangeError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${s}): b = ${e}`);
-  if (e < 0 || e >= s)
-    throw new RangeError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${s}): b = ${e}`);
-  if (t !== void 0) {
-    if (!(t instanceof u))
-      throw new TypeError(`Argument #3 result must be a Matrix instance: result = ${t}`);
-    const { rows: o, columns: i } = l.get(t);
-    if (o !== s)
-      throw new RangeError(`result.rows must equal this.rows: result.rows = ${o}, this.rows = ${s}`);
-    if (i !== n)
-      throw new RangeError(`result.columns must equal this.columns: result.columns = ${i}, this.columns = ${n}`);
-  } else t = new u(s, n, [...this.data]);
-  for (let o = 0; o < n; o++) {
-    const i = this.data[r * n + o];
-    t.data[r * n + o] = this.data[e * n + o], t.data[e * n + o] = i;
-  }
+}, E = function() {
+  if (!(this instanceof u))
+    throw new TypeError(`this must be a Matrix instance: this = ${this}`);
+  const r = l.get(this).rows, e = this.luDecomposition().u;
+  let t = 1;
+  for (let n = 0; n < r; n++)
+    t *= e.data[n * r + n];
   return t;
-}, R = function(r, e, t = 1, s) {
-  const { rows: n, columns: o } = l.get(this);
+}, R = function(r, e, t) {
+  const { rows: n, columns: s } = l.get(this);
   if (r === void 0)
     throw new ReferenceError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${n}): a = ${r}`);
   if (typeof r != "number")
@@ -217,30 +193,62 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     throw new RangeError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${n}): b = ${e}`);
   if (e < 0 || e >= n)
     throw new RangeError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${n}): b = ${e}`);
+  if (t !== void 0) {
+    if (!(t instanceof u))
+      throw new TypeError(`Argument #3 result must be a Matrix instance: result = ${t}`);
+    const { rows: o, columns: i } = l.get(t);
+    if (o !== n)
+      throw new RangeError(`result.rows must equal this.rows: result.rows = ${o}, this.rows = ${n}`);
+    if (i !== s)
+      throw new RangeError(`result.columns must equal this.columns: result.columns = ${i}, this.columns = ${s}`);
+  } else t = new u(n, s, [...this.data]);
+  for (let o = 0; o < s; o++) {
+    const i = this.data[r * s + o];
+    t.data[r * s + o] = this.data[e * s + o], t.data[e * s + o] = i;
+  }
+  return t;
+}, y = function(r, e, t = 1, n) {
+  const { rows: s, columns: o } = l.get(this);
+  if (r === void 0)
+    throw new ReferenceError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${s}): a = ${r}`);
+  if (typeof r != "number")
+    throw new TypeError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${s}): a = ${r}`);
+  if (r % 1 !== 0)
+    throw new RangeError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${s}): a = ${r}`);
+  if (r < 0 || r >= s)
+    throw new RangeError(`Argument #1 a must be an integer greater than or equal to 0 and less than this.rows (${s}): a = ${r}`);
+  if (e === void 0)
+    throw new ReferenceError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${s}): b = ${e}`);
+  if (typeof e != "number")
+    throw new TypeError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${s}): b = ${e}`);
+  if (e % 1 !== 0)
+    throw new RangeError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${s}): b = ${e}`);
+  if (e < 0 || e >= s)
+    throw new RangeError(`Argument #2 b must be an integer greater than or equal to 0 and less than this.rows (${s}): b = ${e}`);
   if (typeof t != "number")
     throw new TypeError(`Argument #3 n must be a number: n = ${t}`);
-  if (s !== void 0) {
-    if (!(s instanceof u))
-      throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${s}`);
-    const { rows: i, columns: a } = l.get(s);
-    if (i !== n)
-      throw new RangeError(`result.rows must equal this.rows (${n}): result.rows = ${i}, this.rows = ${n}`);
+  if (n !== void 0) {
+    if (!(n instanceof u))
+      throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${n}`);
+    const { rows: i, columns: a } = l.get(n);
+    if (i !== s)
+      throw new RangeError(`result.rows must equal this.rows (${s}): result.rows = ${i}, this.rows = ${s}`);
     if (a !== o)
       throw new RangeError(`result.columns must equal this.columns (${o}): result.columns = ${a}, this.columns = ${o}`);
-  } else s = new u(n, o, [...this.data]);
+  } else n = new u(s, o, [...this.data]);
   for (let i = 0; i < o; i++)
-    s.data[e * o + i] = this.data[e * o + i] + this.data[r * o + i] * t;
-  return s;
-}, y = function(r, e, t) {
-  const { rows: s, columns: n } = l.get(this);
+    n.data[e * o + i] = this.data[e * o + i] + this.data[r * o + i] * t;
+  return n;
+}, A = function(r, e, t) {
+  const { rows: n, columns: s } = l.get(this);
   if (r === void 0)
-    throw new ReferenceError(`Argument #1 row must be an integer greater than or equal to 0 and less than this.rows (${s}): row = ${r}`);
+    throw new ReferenceError(`Argument #1 row must be an integer greater than or equal to 0 and less than this.rows (${n}): row = ${r}`);
   if (typeof r != "number")
-    throw new TypeError(`Argument #1 row must be an integer greater than or equal to 0 and less than this.rows (${s}): row = ${r}`);
+    throw new TypeError(`Argument #1 row must be an integer greater than or equal to 0 and less than this.rows (${n}): row = ${r}`);
   if (r % 1 !== 0)
-    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than this.rows (${s}): row = ${r}`);
-  if (r < 0 || r >= s)
-    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than this.rows (${s}): row = ${r}`);
+    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than this.rows (${n}): row = ${r}`);
+  if (r < 0 || r >= n)
+    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than this.rows (${n}): row = ${r}`);
   if (e === void 0) throw new ReferenceError(`Argument #2 n must be a number: n = ${e}`);
   if (typeof e != "number")
     throw new TypeError(`Argument #2 n must be a number: n = ${e}`);
@@ -248,24 +256,24 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     if (!(t instanceof u))
       throw new TypeError(`Argument #3 result must be a Matrix instance: result = ${t}`);
     const { rows: o, columns: i } = l.get(t);
-    if (o !== s)
-      throw new RangeError(`result.rows must equal this.rows (${s}): result.rows = ${o}, this.rows = ${s}`);
-    if (i !== n)
-      throw new RangeError(`result.columns must equal this.columns (${n}): result.columns = ${i}, this.columns = ${n}`);
-  } else t = new u(s, n, [...this.data]);
-  for (let o = 0; o < n; o++)
-    t.data[r * n + o] = this.data[r * n + o] * e;
+    if (o !== n)
+      throw new RangeError(`result.rows must equal this.rows (${n}): result.rows = ${o}, this.rows = ${n}`);
+    if (i !== s)
+      throw new RangeError(`result.columns must equal this.columns (${s}): result.columns = ${i}, this.columns = ${s}`);
+  } else t = new u(n, s, [...this.data]);
+  for (let o = 0; o < s; o++)
+    t.data[r * s + o] = this.data[r * s + o] * e;
   return t;
-}, A = function(r, e, t, s) {
-  const { rows: n, columns: o } = l.get(this);
+}, p = function(r, e, t, n) {
+  const { rows: s, columns: o } = l.get(this);
   if (r === void 0)
-    throw new ReferenceError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${n}): row = ${r}`);
+    throw new ReferenceError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${s}): row = ${r}`);
   if (typeof r != "number")
-    throw new TypeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${n}): row = ${r}`);
+    throw new TypeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${s}): row = ${r}`);
   if (r % 1 !== 0)
-    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${n}): row = ${r}`);
-  if (r < 0 || r > n)
-    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${n}): row = ${r}`);
+    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${s}): row = ${r}`);
+  if (r < 0 || r > s)
+    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${s}): row = ${r}`);
   if (e === void 0)
     throw new ReferenceError(`Argument #2 count must be an integer greater than or equal to 1: count = ${e}`);
   if (typeof e != "number")
@@ -287,97 +295,97 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
           throw new TypeError(`Argument #3 newData must be an array like object containing only numbers: newData[i] = ${t[h]}`);
     }
   }
-  if (s !== void 0) {
-    if (!(s instanceof u))
-      throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${s}`);
-    const { rows: h, columns: m } = l.get(s);
-    if (h !== n + e)
-      throw new RangeError(`result.rows must equal this.rows + count (${n + e}): result.rows = ${h}, this.rows = ${n}`);
+  if (n !== void 0) {
+    if (!(n instanceof u))
+      throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${n}`);
+    const { rows: h, columns: m } = l.get(n);
+    if (h !== s + e)
+      throw new RangeError(`result.rows must equal this.rows + count (${s + e}): result.rows = ${h}, this.rows = ${s}`);
     if (m !== o)
       throw new RangeError(`result.columns must equal this.columns (${o}): result.columns = ${m}, this.columns = ${o}`);
-  } else s = new u(n + e, o);
-  if (e <= 0) return s;
+  } else n = new u(s + e, o);
+  if (e <= 0) return n;
   t === void 0 && (t = []);
   for (let h = t.length; h < o * e; h++)
     t[h] = 0;
   let i = 0, a = 0;
-  for (let h = 0; h < n + e; h++) {
+  for (let h = 0; h < s + e; h++) {
     for (let m = 0; m < o; m++)
-      h >= r && h < r + e ? s.data[h * o + m] = t[a * o + m] : s.data[h * o + m] = this.data[i * o + m];
+      h >= r && h < r + e ? n.data[h * o + m] = t[a * o + m] : n.data[h * o + m] = this.data[i * o + m];
     h >= r && h < r + e ? a++ : i++;
   }
-  return s;
-}, p = function(r, e, t) {
-  const { rows: s, columns: n } = l.get(this);
+  return n;
+}, q = function(r, e, t) {
+  const { rows: n, columns: s } = l.get(this);
   if (r === void 0)
-    throw new ReferenceError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${s}): row = ${r}`);
+    throw new ReferenceError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${n}): row = ${r}`);
   if (typeof r != "number")
-    throw new TypeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${s}): row = ${r}`);
+    throw new TypeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${n}): row = ${r}`);
   if (r % 1 !== 0)
-    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${s}): row = ${r}`);
-  if (r < 0 || r > s)
-    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${s}): row = ${r}`);
+    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${n}): row = ${r}`);
+  if (r < 0 || r > n)
+    throw new RangeError(`Argument #1 row must be an integer greater than or equal to 0 and less than or equal to this.rows (${n}): row = ${r}`);
   if (e === void 0)
     throw new ReferenceError(`Argument #2 count must be an integer >= 1 or < this.rows while row === 0: count = ${e}`);
   if (typeof e != "number")
     throw new TypeError(`Argument #2 count must be an integer >= 1 or < this.rows while row === 0: count = ${e}`);
   if (e % 1 > 0)
     throw new RangeError(`Argument #2 count must be an integer >= 1 or < this.rows while row === 0: count = ${e}`);
-  if (e < 1 || r === 0 && e >= s)
+  if (e < 1 || r === 0 && e >= n)
     throw new RangeError(`Argument #2 count must be an integer >= 1 or < this.rows while row === 0: count = ${e}`);
   if (t !== void 0) {
     if (!(t instanceof u))
       throw new TypeError(`Argument #3 result must be a Matrix instance: result = ${t}`);
     const { rows: i, columns: a } = l.get(t);
-    if (i !== s - e)
-      throw new RangeError(`result.rows must equal this.rows - count (${s - e}): result.rows = ${i}, this.rows = ${s}`);
-    if (a !== n)
-      throw new RangeError(`result.columns must equal this.columns (${n}): result.columns = ${a}, this.columns = ${n}`);
-  } else t = new u(s - e, n);
+    if (i !== n - e)
+      throw new RangeError(`result.rows must equal this.rows - count (${n - e}): result.rows = ${i}, this.rows = ${n}`);
+    if (a !== s)
+      throw new RangeError(`result.columns must equal this.columns (${s}): result.columns = ${a}, this.columns = ${s}`);
+  } else t = new u(n - e, s);
   let o = 0;
-  for (let i = 0; i < s; i++)
+  for (let i = 0; i < n; i++)
     if (!(i >= r && i < r + e)) {
-      for (let a = 0; a < n; a++)
-        t.data[o * n + a] = this.data[i * n + a];
+      for (let a = 0; a < s; a++)
+        t.data[o * s + a] = this.data[i * s + a];
       o++;
     }
   return t;
-}, q = function(r, e, t) {
+}, T = function(r, e, t) {
   if (!(this instanceof u)) throw new TypeError(`this must be a Matrix instance: this = ${this}`);
-  const { rows: s, columns: n } = l.get(this);
+  const { rows: n, columns: s } = l.get(this);
   if (r === void 0)
-    throw new ReferenceError(`Argument #1 a must be an integer >= 0 and < this.columns (${n}): a = ${r}`);
+    throw new ReferenceError(`Argument #1 a must be an integer >= 0 and < this.columns (${s}): a = ${r}`);
   if (typeof r != "number")
-    throw new TypeError(`Argument #1 a must be an integer >= 0 and < this.columns (${n}): a = ${r}`);
+    throw new TypeError(`Argument #1 a must be an integer >= 0 and < this.columns (${s}): a = ${r}`);
   if (r % 1 !== 0)
-    throw new RangeError(`Argument #1 a must be an integer >= 0 and < this.columns (${n}): a = ${r}`);
-  if (r < 0 || r >= n)
-    throw new RangeError(`Argument #1 a must be an integer >= 0 and < this.columns (${n}): a = ${r}`);
+    throw new RangeError(`Argument #1 a must be an integer >= 0 and < this.columns (${s}): a = ${r}`);
+  if (r < 0 || r >= s)
+    throw new RangeError(`Argument #1 a must be an integer >= 0 and < this.columns (${s}): a = ${r}`);
   if (e === void 0)
-    throw new ReferenceError(`Argument #2 b must be an integer >= 0 and < this.columns (${n}): b = ${e}`);
+    throw new ReferenceError(`Argument #2 b must be an integer >= 0 and < this.columns (${s}): b = ${e}`);
   if (typeof e != "number")
-    throw new TypeError(`Argument #2 b must be an integer >= 0 and < this.columns (${n}): b = ${e}`);
+    throw new TypeError(`Argument #2 b must be an integer >= 0 and < this.columns (${s}): b = ${e}`);
   if (e % 1 !== 0)
-    throw new RangeError(`Argument #2 b must be an integer >= 0 and < this.columns (${n}): b = ${e}`);
-  if (e < 0 || e >= n)
-    throw new RangeError(`Argument #2 b must be an integer >= 0 and < this.columns (${n}): b = ${e}`);
+    throw new RangeError(`Argument #2 b must be an integer >= 0 and < this.columns (${s}): b = ${e}`);
+  if (e < 0 || e >= s)
+    throw new RangeError(`Argument #2 b must be an integer >= 0 and < this.columns (${s}): b = ${e}`);
   if (t !== void 0) {
     if (!(t instanceof u))
       throw new TypeError(`Argument #3 result must be a Matrix instance: result = ${t}`);
     const { rows: o, columns: i } = l.get(t);
-    if (o !== s)
-      throw new RangeError(`result.rows must = this.rows: result.rows = ${o}, this.rows = ${s}`);
-    if (i !== n)
-      throw new RangeError(`result.columns must = this.columns: result.columns = ${i}, this.columns = ${n}`);
-  } else t = new u(s, n, [...this.data]);
-  for (let o = 0; o < s; o++) {
-    const i = this.data[o * n + r];
-    t.data[o * n + r] = this.data[o * n + e], t.data[o * n + e] = i;
+    if (o !== n)
+      throw new RangeError(`result.rows must = this.rows: result.rows = ${o}, this.rows = ${n}`);
+    if (i !== s)
+      throw new RangeError(`result.columns must = this.columns: result.columns = ${i}, this.columns = ${s}`);
+  } else t = new u(n, s, [...this.data]);
+  for (let o = 0; o < n; o++) {
+    const i = this.data[o * s + r];
+    t.data[o * s + r] = this.data[o * s + e], t.data[o * s + e] = i;
   }
   return t;
-}, T = function(r, e, t = 1, s) {
+}, x = function(r, e, t = 1, n) {
   if (!(this instanceof u)) throw new TypeError(`this must be a Matrix instance: this = ${this}`);
-  const { rows: n, columns: o } = l.get(this);
+  const { rows: s, columns: o } = l.get(this);
   if (r === void 0)
     throw new ReferenceError(`Argument #1 a must be an integer >= 0 and < this.columns (${o}): a = ${r}`);
   if (typeof r != "number")
@@ -396,29 +404,29 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     throw new RangeError(`Argument #2 b must be an integer >= 0 and < this.columns (${o}): b = ${e}`);
   if (typeof t != "number")
     throw new TypeError(`Argument #3 n must be a number: n = ${t}`);
-  if (s !== void 0) {
-    if (!(s instanceof u))
-      throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${s}`);
-    const { rows: i, columns: a } = l.get(s);
-    if (i !== n)
-      throw new RangeError(`result.rows must equal this.rows (${n}): result.rows = ${i}, this.rows = ${n}`);
+  if (n !== void 0) {
+    if (!(n instanceof u))
+      throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${n}`);
+    const { rows: i, columns: a } = l.get(n);
+    if (i !== s)
+      throw new RangeError(`result.rows must equal this.rows (${s}): result.rows = ${i}, this.rows = ${s}`);
     if (a !== o)
       throw new RangeError(`result.columns must equal this.columns (${o}): result.columns = ${a}, this.columns = ${o}`);
-  } else s = new u(n, o, [...this.data]);
-  for (let i = 0; i < n; i++)
-    s.data[i * o + e] = this.data[i * o + e] + this.data[i * o + r] * t;
-  return s;
-}, x = function(r, e, t) {
+  } else n = new u(s, o, [...this.data]);
+  for (let i = 0; i < s; i++)
+    n.data[i * o + e] = this.data[i * o + e] + this.data[i * o + r] * t;
+  return n;
+}, C = function(r, e, t) {
   if (!(this instanceof u)) throw new TypeError(`this must be a Matrix instance: this = ${this}`);
-  const { rows: s, columns: n } = l.get(this);
+  const { rows: n, columns: s } = l.get(this);
   if (r === void 0)
-    throw new ReferenceError(`Argument #1 column must be an integer >= 0 and < this.columns (${n}): column = ${r}`);
+    throw new ReferenceError(`Argument #1 column must be an integer >= 0 and < this.columns (${s}): column = ${r}`);
   if (typeof r != "number")
-    throw new TypeError(`Argument #1 column must be an integer >= 0 and < this.columns (${n}): column = ${r}`);
+    throw new TypeError(`Argument #1 column must be an integer >= 0 and < this.columns (${s}): column = ${r}`);
   if (r % 1 !== 0)
-    throw new RangeError(`Argument #1 column must be an integer >= 0 and < this.columns (${n}): column = ${r}`);
-  if (r < 0 || r >= n)
-    throw new RangeError(`Argument #1 column must be an integer >= 0 and < this.columns (${n}): column = ${r}`);
+    throw new RangeError(`Argument #1 column must be an integer >= 0 and < this.columns (${s}): column = ${r}`);
+  if (r < 0 || r >= s)
+    throw new RangeError(`Argument #1 column must be an integer >= 0 and < this.columns (${s}): column = ${r}`);
   if (e === void 0) throw new ReferenceError(`Argument #2 n must be a number: n = ${e}`);
   if (typeof e != "number")
     throw new TypeError(`Argument #2 n must be a number: n = ${e}`);
@@ -426,17 +434,17 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     if (!(t instanceof u))
       throw new TypeError(`Argument #3 result must be a Matrix instance: result = ${t}`);
     const { rows: o, columns: i } = l.get(t);
-    if (o !== s)
-      throw new RangeError(`result.rows must equal this.rows (${s}): result.rows = ${o}, this.rows = ${s}`);
-    if (i !== n)
-      throw new RangeError(`result.columns must equal this.columns (${n}): result.columns = ${i}, this.columns = ${n}`);
-  } else t = new u(s, n, [...this.data]);
-  for (let o = 0; o < s; o++)
-    t.data[o * n + r] = this.data[o * n + r] * e;
+    if (o !== n)
+      throw new RangeError(`result.rows must equal this.rows (${n}): result.rows = ${o}, this.rows = ${n}`);
+    if (i !== s)
+      throw new RangeError(`result.columns must equal this.columns (${s}): result.columns = ${i}, this.columns = ${s}`);
+  } else t = new u(n, s, [...this.data]);
+  for (let o = 0; o < n; o++)
+    t.data[o * s + r] = this.data[o * s + r] * e;
   return t;
-}, C = function(r, e, t, s) {
+}, M = function(r, e, t, n) {
   if (!(this instanceof u)) throw new TypeError(`this must be a Matrix instance: this = ${this}`);
-  const { rows: n, columns: o } = l.get(this);
+  const { rows: s, columns: o } = l.get(this);
   if (r === void 0)
     throw new ReferenceError(`Argument #1 column must be an integer >= 0 and < this.columns (${o}): column = ${r}`);
   if (typeof r != "number")
@@ -466,59 +474,59 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
           throw new TypeError(`Argument #3 newData must be an array like object containing only numbers: newData[i] = ${t[a]}`);
     }
   }
-  if (s !== void 0) {
-    if (!(s instanceof u))
-      throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${s}`);
-    const { rows: a, columns: h } = l.get(s);
-    if (a !== n)
-      throw new RangeError(`result.rows must equal this.rows (${n}): result.rows = ${a}, this.rows = ${n}`);
+  if (n !== void 0) {
+    if (!(n instanceof u))
+      throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${n}`);
+    const { rows: a, columns: h } = l.get(n);
+    if (a !== s)
+      throw new RangeError(`result.rows must equal this.rows (${s}): result.rows = ${a}, this.rows = ${s}`);
     if (h !== o + e)
       throw new RangeError(`result.columns must equal this.columns + count (${o + e}): result.columns = ${h}, this.columns = ${o}`);
-  } else s = new u(n, o + e);
-  if (e <= 0) return s;
+  } else n = new u(s, o + e);
+  if (e <= 0) return n;
   t === void 0 && (t = []);
-  for (let a = t.length; a < n * e; a++)
+  for (let a = t.length; a < s * e; a++)
     t[a] = 0;
   let i = o + e;
-  for (let a = 0; a < n; a++) {
+  for (let a = 0; a < s; a++) {
     let h = 0, m = 0;
     for (let w = 0; w < i; w++)
-      w >= r && w < r + e ? (s.data[a * i + w] = t[a * e + m], m++) : (s.data[a * i + w] = this.data[a * o + h], h++);
+      w >= r && w < r + e ? (n.data[a * i + w] = t[a * e + m], m++) : (n.data[a * i + w] = this.data[a * o + h], h++);
   }
-  return s;
-}, M = function(r, e, t) {
+  return n;
+}, j = function(r, e, t) {
   if (!(this instanceof u)) throw new TypeError(`this must be a Matrix instance: this = ${this}`);
-  const { rows: s, columns: n } = l.get(this);
+  const { rows: n, columns: s } = l.get(this);
   if (r === void 0)
-    throw new ReferenceError(`Argument #1 column must be an integer >= 0 and < this.columns (${n}): column = ${r}`);
+    throw new ReferenceError(`Argument #1 column must be an integer >= 0 and < this.columns (${s}): column = ${r}`);
   if (typeof r != "number")
-    throw new TypeError(`Argument #1 column must be an integer >= 0 and < this.columns (${n}): column = ${r}`);
+    throw new TypeError(`Argument #1 column must be an integer >= 0 and < this.columns (${s}): column = ${r}`);
   if (r % 1 !== 0)
-    throw new RangeError(`Argument #1 column must be an integer >= 0 and < this.columns (${n}): column = ${r}`);
-  if (r < 0 || r > n)
-    throw new RangeError(`Argument #1 column must be an integer >= 0 and < this.columns (${n}): column = ${r}`);
+    throw new RangeError(`Argument #1 column must be an integer >= 0 and < this.columns (${s}): column = ${r}`);
+  if (r < 0 || r > s)
+    throw new RangeError(`Argument #1 column must be an integer >= 0 and < this.columns (${s}): column = ${r}`);
   if (e === void 0)
     throw new ReferenceError(`Argument #2 count must be an integer >= 1 or < this.columns - column: count = ${e}`);
   if (typeof e != "number")
     throw new TypeError(`Argument #2 count must be an integer >= 1 or < this.columns - column: count = ${e}`);
   if (e % 1 > 0)
     throw new RangeError(`Argument #2 count must be an integer >= 1 or < this.columns - column: count = ${e}`);
-  if (e < 1 || e > n - r)
+  if (e < 1 || e > s - r)
     throw new RangeError(`Argument #2 count must be an integer >= 1 or < this.columns - column: count = ${e}`);
   if (t !== void 0) {
     if (!(t instanceof u))
       throw new TypeError(`Argument #4 result must be a Matrix instance: result = ${t}`);
     const { rows: i, columns: a } = l.get(t);
-    if (i !== s)
-      throw new RangeError(`result.rows must equal this.rows (${s}): result.rows = ${i}, this.rows = ${s}`);
-    if (a !== n - e)
-      throw new RangeError(`result.columns must equal this.columns - count (${n - e}): result.columns = ${a}, this.columns = ${n}`);
-  } else t = new u(s, n - e);
+    if (i !== n)
+      throw new RangeError(`result.rows must equal this.rows (${n}): result.rows = ${i}, this.rows = ${n}`);
+    if (a !== s - e)
+      throw new RangeError(`result.columns must equal this.columns - count (${s - e}): result.columns = ${a}, this.columns = ${s}`);
+  } else t = new u(n, s - e);
   if (e <= 0) return t;
   let o = 0;
-  for (let i = 0; i < s; i++)
-    for (let a = 0; a < n; a++)
-      a >= r && a < r + e || (t.data[o] = this.data[i * n + a], o++);
+  for (let i = 0; i < n; i++)
+    for (let a = 0; a < s; a++)
+      a >= r && a < r + e || (t.data[o] = this.data[i * s + a], o++);
   return t;
 }, u = function(r, e, t) {
   if (this instanceof u) {
@@ -541,17 +549,17 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
   } else throw new SyntaxError("Matrix must be called with the new operator");
   if (t !== void 0)
     if (typeof t == "number") {
-      const s = new Float64Array(r * e);
-      for (let n = 0; n < s.length; n++)
-        s[n] = t;
-      t = s;
+      const n = new Float64Array(r * e);
+      for (let s = 0; s < n.length; s++)
+        n[s] = t;
+      t = n;
     } else if (t instanceof Array) {
-      const s = new Float64Array(r * e), n = Math.min(t.length, s.length);
-      for (let o = 0; o < n; o++) {
+      const n = new Float64Array(r * e), s = Math.min(t.length, n.length);
+      for (let o = 0; o < s; o++) {
         if (typeof t[o] != "number") throw new TypeError(`Argument #3 data must be a number, an Array of numbers of any length or a Float64Array where data.length must === rows * columns (${r * e}) and data.buffer.resizable must === false: data[i] = ${t[o]}`);
-        s[o] = t[o];
+        n[o] = t[o];
       }
-      t = s;
+      t = n;
     } else if (t instanceof Float64Array) {
       if (t.length !== r * e)
         throw new TypeError(`Argument #3 data must be a number, an Array of numbers of any length or a Float64Array where data.length must === rows * columns (${r * e}) and data.buffer.resizable must === false: data.length = ${t.length}`);
@@ -565,25 +573,25 @@ const l = /* @__PURE__ */ new WeakMap(), f = function(r, e) {
     value: t,
     writable: !1
   }), this;
-}, j = function() {
-  if (!(this instanceof u))
-    throw new TypeError(`this must be a Matrix instance: this = ${this}`);
-  const { rows: r, columns: e } = l.get(this), t = new Array(r);
-  for (let s = 0; s < r; s++) {
-    t[s] = [];
-    for (let n = 0; n < e; n++)
-      t[s][n] = this.data[s * e + n];
-  }
-  return t;
 }, k = function() {
   if (!(this instanceof u))
     throw new TypeError(`this must be a Matrix instance: this = ${this}`);
+  const { rows: r, columns: e } = l.get(this), t = new Array(r);
+  for (let n = 0; n < r; n++) {
+    t[n] = [];
+    for (let s = 0; s < e; s++)
+      t[n][s] = this.data[n * e + s];
+  }
+  return t;
+}, F = function() {
+  if (!(this instanceof u))
+    throw new TypeError(`this must be a Matrix instance: this = ${this}`);
   const { rows: r, columns: e } = l.get(this), t = new Array(e);
-  for (let s = 0; s < e; s++)
-    t[s] = [];
-  for (let s = 0; s < r; s++)
-    for (let n = 0; n < e; n++)
-      t[n][s] = this.data[s * e + n];
+  for (let n = 0; n < e; n++)
+    t[n] = [];
+  for (let n = 0; n < r; n++)
+    for (let s = 0; s < e; s++)
+      t[s][n] = this.data[n * e + s];
   return t;
 };
 u.prototype = {
@@ -594,22 +602,23 @@ u.prototype = {
     return l.get(this).columns;
   },
   add: f,
-  addColumnToColumn: T,
-  addRowToRow: R,
-  insertColumns: C,
-  insertRows: A,
+  addColumnToColumn: x,
+  addRowToRow: y,
+  determinant: E,
+  insertColumns: M,
+  insertRows: p,
   luDecomposition: b,
-  multiplyColumn: x,
+  multiplyColumn: C,
   multiplyMatrix: $,
-  multiplyRow: y,
+  multiplyRow: A,
   multiplyScalar: c,
-  removeColumns: M,
-  removeRows: p,
+  removeColumns: j,
+  removeRows: q,
   subtract: g,
-  switchColumns: q,
-  switchRows: E,
-  to2DArrayColumnMajor: k,
-  to2DArrayRowMajor: j,
+  switchColumns: T,
+  switchRows: R,
+  to2DArrayColumnMajor: F,
+  to2DArrayRowMajor: k,
   transpose: d
 };
 export {
